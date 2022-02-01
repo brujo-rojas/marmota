@@ -1,0 +1,32 @@
+.marmota{
+  .truncate {
+    width:100%;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .header-item-clickeable {
+    cursor: pointer;
+  }
+
+  .has-error {
+    border: 1px solid red !important;
+  }
+
+  .v-icon.rotate{
+    transform: rotate(180deg);
+  }
+
+
+  //v-tooltip--white-big
+
+
+  .space-icon{
+    width: 1em;;
+    margin: 0px 6px;
+    height: 1em;
+  }
+
+}

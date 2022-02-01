@@ -1,0 +1,21 @@
+@function mapGet($map, $list...) {
+  @each $key in $list {
+    @if $map{
+      $map: map-get($map, $key);
+    }
+  }
+  @if $map {
+    @return $map;
+  } @else {
+    @return null;
+  }
+}
+
+
+
+@function setTransparent($color, $opacity){
+  @if $color {
+    @return transparentize($color, $opacity);
+  }
+  @return null;
+}
