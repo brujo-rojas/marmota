@@ -40,21 +40,21 @@
 </template>
 
 <script>
-import MarmotaNavRow from "./../MarmotaNavRow/MarmotaNavRow";
+import MarmotaNavRow from './../MarmotaNavRow/MarmotaNavRow'
 
 export default {
-  name: "MarmotaNavRowGroup",
+  name: 'MarmotaNavRowGroup',
 
   props: {
     index: { type: Number, required: true, default: -1 },
     item: { type: Object, required: true },
     parent: { type: Object, default: null },
     config: { type: Object, required: true },
-    disabled: { type: Boolean, default: false }
+    disabled: { type: Boolean, default: false },
   },
 
   components: {
-    MarmotaNavRow
-  }
-};
+    MarmotaNavRow,
+  },
+}
 </script>

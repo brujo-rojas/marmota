@@ -4,7 +4,7 @@
     :class="{
       'bg-edit': item.edit,
       large: item.isLarge,
-      'bottom-fixed': footer
+      'bottom-fixed': footer,
     }"
   >
     <div class="t-col-group">
@@ -53,7 +53,7 @@
           class="d-flex flex-row align-center"
         >
           <div>
-            {{ get(navColumn, "value") ? get(navColumn, "prefix") : "" }}
+            {{ get(navColumn, 'value') ? get(navColumn, 'prefix') : '' }}
           </div>
           <input
             :disabled="isDisabledInput"
@@ -64,7 +64,7 @@
             :value="get(navColumn, 'value')"
           />
           <div>
-            {{ get(navColumn, "value") ? get(navColumn, "suffix") : "" }}
+            {{ get(navColumn, 'value') ? get(navColumn, 'suffix') : '' }}
           </div>
         </div>
 
@@ -73,7 +73,7 @@
           class="d-flex flex-row align-center"
         >
           <div>
-            {{ get(navColumn, "value") ? get(navColumn, "prefix") : "" }}
+            {{ get(navColumn, 'value') ? get(navColumn, 'prefix') : '' }}
           </div>
           <input
             :disabled="isDisabledInput"
@@ -84,7 +84,7 @@
             :value="get(navColumn, 'value')"
           />
           <div>
-            {{ get(navColumn, "value") ? get(navColumn, "suffix") : "" }}
+            {{ get(navColumn, 'value') ? get(navColumn, 'suffix') : '' }}
           </div>
         </div>
 
@@ -107,9 +107,9 @@
               v-on="on"
             >
               <span class="text-capitalize">
-                {{ get(navColumn, "value") ? get(navColumn, "prefix") : "" }}
-                {{ formatDate(get(navColumn, "value")) }}
-                {{ get(navColumn, "value") ? get(navColumn, "suffix") : "" }}
+                {{ get(navColumn, 'value') ? get(navColumn, 'prefix') : '' }}
+                {{ formatDate(get(navColumn, 'value')) }}
+                {{ get(navColumn, 'value') ? get(navColumn, 'suffix') : '' }}
               </span>
             </v-btn>
           </template>
@@ -135,95 +135,95 @@
 </template>
 
 <script>
-import dayjs from "dayjs";
-import _ from "lodash";
+import dayjs from 'dayjs'
+import _ from 'lodash'
 
 export default {
-  name: "MarmotaNavRow",
+  name: 'MarmotaNavRow',
   props: {
     index: { type: Number, required: true, default: -1 },
     item: { type: Object, required: true },
     parent: { type: Object, default: null },
     config: { type: Object, required: true },
     footer: { type: Boolean, default: false },
-    disabled: { type: Boolean, default: false }
+    disabled: { type: Boolean, default: false },
   },
   computed: {
     isDisabledInput() {
-      return !this.item.edit || this.disabled;
+      return !this.item.edit || this.disabled
     },
     isDisabled() {
-      return this.disabled;
-    }
+      return this.disabled
+    },
   },
   methods: {
     formatDate(date) {
-      return dayjs(date).format("D MMM, YYYY");
+      return dayjs(date).format('D MMM, YYYY')
     },
     changeInput(item, navColumn, newValue) {
-      this.set(navColumn, "value", newValue);
-      this.validateItem(item);
+      this.set(navColumn, 'value', newValue)
+      this.validateItem(item)
     },
     validateItems() {
-      this.config.data.forEach(item => {
-        this.validateItem(item);
-      });
+      this.config.data.forEach((item) => {
+        this.validateItem(item)
+      })
     },
 
     get(navColumn, varName) {
       // get var from item
-      return _.get(this.item.vars, navColumn.varName + "." + varName);
+      return _.get(this.item.vars, navColumn.varName + '.' + varName)
     },
 
     set(navColumn, varName, newValue) {
       // get var from item
-      return _.set(this.item.vars, navColumn.varName + "." + varName, newValue);
+      return _.set(this.item.vars, navColumn.varName + '.' + varName, newValue)
     },
 
     getItemStyle(headerItem) {
-      let style = "";
+      let style = ''
       if (headerItem.width) {
-        style += "width:" + headerItem.width + "px;";
+        style += 'width:' + headerItem.width + 'px;'
         //style += "min-width:"+headerItem.width + "px;";
-        style += "flex: 0 0 " + headerItem.width + "px;";
+        style += 'flex: 0 0 ' + headerItem.width + 'px;'
       }
-      return style;
+      return style
     },
 
     validateItem(item) {
       //TODO min, max
       //TODO TESTING-- navRight debe ser un atributo configurable
-      item.hasError = false;
-      this.config.navRight.vars.forEach(navColumn => {
-        this.set(navColumn, "hasError", false);
+      item.hasError = false
+      this.config.navRight.vars.forEach((navColumn) => {
+        this.set(navColumn, 'hasError', false)
 
         if (navColumn.required && !item.vars[navColumn.varName].value) {
-          item.hasError = true;
-          this.set(navColumn, "hasError", true);
+          item.hasError = true
+          this.set(navColumn, 'hasError', true)
         }
 
         if (navColumn.beforeTo) {
-          let dateNavItem = dayjs(item.vars[navColumn.varName].value);
-          let dateBeforeTo = dayjs(item.vars[navColumn.beforeTo].value);
-          if (!dateNavItem.isBefore(dateBeforeTo, "day")) {
-            item.hasError = true;
-            this.set(navColumn, "hasError", true);
+          let dateNavItem = dayjs(item.vars[navColumn.varName].value)
+          let dateBeforeTo = dayjs(item.vars[navColumn.beforeTo].value)
+          if (!dateNavItem.isBefore(dateBeforeTo, 'day')) {
+            item.hasError = true
+            this.set(navColumn, 'hasError', true)
           }
         }
 
         if (navColumn.afterTo) {
-          let dateNavItem = dayjs(item.vars[navColumn.varName].value);
-          let dateAfterTo = dayjs(item.vars[navColumn.afterTo].value);
-          if (!dateNavItem.isAfter(dateAfterTo, "day")) {
-            item.hasError = true;
-            this.set(navColumn, "hasError", true);
+          let dateNavItem = dayjs(item.vars[navColumn.varName].value)
+          let dateAfterTo = dayjs(item.vars[navColumn.afterTo].value)
+          if (!dateNavItem.isAfter(dateAfterTo, 'day')) {
+            item.hasError = true
+            this.set(navColumn, 'hasError', true)
           }
         }
-      });
-      return item.hasError;
-    }
-  }
-};
+      })
+      return item.hasError
+    },
+  },
+}
 </script>
 
 <style></style>

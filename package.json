@@ -24,6 +24,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
 
+    "testBuild": "vue-cli-service build",
     "build": "vue-cli-service build --target lib --name marmota src/main.js",
     "lint": "vue-cli-service lint",
 

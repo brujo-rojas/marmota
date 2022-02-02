@@ -1,7 +1,7 @@
-# table-example
+# primer ejemplo
 <Demo componentName="examples-table-example-doc" />
 
-## Source Code
+## Código
 
 <SourceCode>
 <<< @/docs/.vuepress/components/examples/table-example-doc.vue

@@ -1,47 +1,53 @@
 module.exports = {
+  markdown: {
+    lineNumbers: true
+  },
   locales: {
     '/': {
-      lang: 'en-US',
-      title: 'Component Library 🥂',
-      description: 'Documentation site for the Vue component library plugin'
+      lang: 'es-Es',
+      title: 'Marmota',
+      description: 'Tabla de datos simple, para vuetify2'
     }
   },
   themeConfig: {
-    repoLabel: 'Contribute!',
+    repoLabel: 'Contribuye!',
     // git repo here... gitlab, github
     repo: '',
     docsDir: 'docs',
     editLinks: true,
-    docsBranch: 'master',
-    editLinkText: 'Help us improve this page!',
+    docsBranch: 'main',
+    editLinkText: 'Ayúdanos a mejorar nuestro trabajo.',
     search: false,
     locales: {
       '/': {
-        label: 'English',
-        selectText: 'Languages',
-        lastUpdated: 'Last Updated',
+        label: 'Español',
+        selectText: 'Lenguajes',
+        lastUpdated: 'Último cambio',
         // service worker is configured but will only register in production
         serviceWorker: {
           updatePopup: {
-            message: 'New content is available.',
-            buttonText: 'Refresh'
+            message: 'Nuevo Contenido',
+            buttonText: 'Refrescar'
           }
         },
         nav: [
-          { text: 'Getting Started', link: '/guide' },
-          { text: 'Components', link: '/components/' },
+          { text: 'Instalación', link: '/guide' },
+          { text: 'Ejemplos', link: '/components/' },
           // external link to git repo...again
           {
             text: 'GitHub',
-            link: ''
+            link: 'https://github.com/brujo-rojas/marmota'
           }
         ],
         sidebar: {
           '/components/': [
             {
-              title: 'Components',
+              title: 'Ejemplos',
               collapsable: false,
-              children: ['table-example']
+              children: [
+                'table-basic',
+                'table-example',
+              ]
             }
           ]
         }

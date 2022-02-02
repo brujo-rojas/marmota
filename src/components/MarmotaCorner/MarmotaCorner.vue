@@ -51,24 +51,24 @@
 </template>
 
 <script>
-import _ from "lodash";
+import _ from 'lodash'
 
 export default {
-  name: "MarmotaCorner",
+  name: 'MarmotaCorner',
   props: {
     disableSelection: { type: Boolean, default: false },
     config: { type: Object, default: null },
     right: { type: Boolean, default: false },
-    hasGroups: { type: Boolean, default: false }
+    hasGroups: { type: Boolean, default: false },
   },
   data() {
     return {
-      isAllSelected: false
-    };
+      isAllSelected: false,
+    }
   },
   computed: {
     side() {
-      return this.right ? "right" : "left";
+      return this.right ? 'right' : 'left'
     },
 
     isSelectable() {
@@ -76,36 +76,36 @@ export default {
         !this.disableSelection &&
         this.config.isSelectable !== false &&
         this.config.corner[this.side].isAllSelectable !== false
-      );
-    }
+      )
+    },
   },
   watch: {
     config() {
-      this.isAllSelected = false;
-    }
+      this.isAllSelected = false
+    },
   },
   methods: {
     changeSelectAllCheckbox() {
-      this.config.data.forEach(item => {
-        item.isSelected = this.isAllSelected;
-      });
-      this.$emit("changeSelection", {
+      this.config.data.forEach((item) => {
+        item.isSelected = this.isAllSelected
+      })
+      this.$emit('changeSelection', {
         isAllSelected: this.isAllSelected,
-        itemsSelected: _.filter(this.config.data, "isSelected")
-      });
+        itemsSelected: _.filter(this.config.data, 'isSelected'),
+      })
     },
 
     getItemStyle(headerItem) {
-      let style = "";
+      let style = ''
       if (headerItem.width) {
-        style += "width:" + headerItem.width + "px;";
-        style += "min-width:" + headerItem.width + "px;";
-        style += "flex: 0 0 " + headerItem.width + "px;";
+        style += 'width:' + headerItem.width + 'px;'
+        style += 'min-width:' + headerItem.width + 'px;'
+        style += 'flex: 0 0 ' + headerItem.width + 'px;'
       }
-      return style;
-    }
-  }
-};
+      return style
+    },
+  },
+}
 </script>
 
 <style></style>

@@ -45,7 +45,7 @@
           class="header-item truncate"
           :class="[
             headerItem.background,
-            headerItem.clickeable ? 'header-item-clickeable' : ''
+            headerItem.clickeable ? 'header-item-clickeable' : '',
           ]"
           :style="getItemStyle(headerItem)"
           v-for="(headerItem, indexHeaderGroup) in headerGroup.vars"
@@ -74,43 +74,43 @@
 </template>
 
 <script>
-import MarmotaEventBus from "./../Marmota/MarmotaEventBus";
-import _ from "lodash";
+import MarmotaEventBus from './../Marmota/MarmotaEventBus'
+import _ from 'lodash'
 export default {
-  name: "MarmotaHeader",
+  name: 'MarmotaHeader',
   props: {
     config: { type: Object, default: null },
-    hasGroups: { type: Boolean, default: false }
+    hasGroups: { type: Boolean, default: false },
   },
   computed: {
     isMobile() {
-      return this.$vuetify.breakpoint.smAndDown;
-    }
+      return this.$vuetify.breakpoint.smAndDown
+    },
   },
   methods: {
     getGroupStyle(headerGroup) {
-      let headerItem = _.first(headerGroup.vars);
-      let style = "";
+      let headerItem = _.first(headerGroup.vars)
+      let style = ''
       if (headerGroup.vars.length == 1 && headerItem.width) {
         style = `width:     ${headerItem.width + 2}px;
-                  flex:      1 0 ${headerItem.width}px`;
+                  flex:      1 0 ${headerItem.width}px`
         if (
           this.isMobile &&
           headerItem.responsive &&
           headerItem.responsive.width
         ) {
           style = `width: ${headerItem.responsive.width + 2}px;
-                    flex:  1 0 ${headerItem.responsive.width}px`;
+                    flex:  1 0 ${headerItem.responsive.width}px`
         }
       }
-      return style;
+      return style
     },
     getItemStyle(headerItem) {
-      let style = "";
+      let style = ''
       if (headerItem.width) {
         style = `width:     ${headerItem.width}px;
                   min-width: ${headerItem.width}px;
-                  flex:      0 0 ${headerItem.width}px`;
+                  flex:      0 0 ${headerItem.width}px`
       }
       if (
         this.isMobile &&
@@ -119,15 +119,15 @@ export default {
       ) {
         style = `width: ${headerItem.responsive.width}px;
                   min-width: ${headerItem.responsive.width}px;
-                  flex:  0 0 ${headerItem.responsive.width}px`;
+                  flex:  0 0 ${headerItem.responsive.width}px`
       }
-      return style;
+      return style
     },
     onLabelClick(headerItem) {
-      MarmotaEventBus.$emit("clickHeaderLabel", {
-        headerItem
-      });
-    }
-  }
-};
+      MarmotaEventBus.$emit('clickHeaderLabel', {
+        headerItem,
+      })
+    },
+  },
+}
 </script>

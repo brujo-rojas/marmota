@@ -134,23 +134,23 @@
 
 <script>
 //import utils from "@/utils/utils";
-import dayjs from "dayjs";
-import _ from "lodash";
-import MarmotaNavItemGroup from "./../MarmotaNavItemGroup";
-import MarmotaCorner from "./../MarmotaCorner";
-import MarmotaHeader from "./../MarmotaHeader";
+import dayjs from 'dayjs'
+import _ from 'lodash'
+import MarmotaNavItemGroup from './../MarmotaNavItemGroup'
+import MarmotaCorner from './../MarmotaCorner'
+import MarmotaHeader from './../MarmotaHeader'
 //import MarmotaRow           from '@/components/Marmota/components/MarmotaRow'
-import MarmotaRowGroup from "./../MarmotaRowGroup";
-import MarmotaNavRow from "./../MarmotaNavRow";
-import MarmotaNavRowGroup from "./../MarmotaNavRowGroup";
-import MarmotaEventBus from "./MarmotaEventBus";
+import MarmotaRowGroup from './../MarmotaRowGroup'
+import MarmotaNavRow from './../MarmotaNavRow'
+import MarmotaNavRowGroup from './../MarmotaNavRowGroup'
+import MarmotaEventBus from './MarmotaEventBus'
 
 export default {
-  name:"Marmota",
+  name: 'Marmota',
   props: {
     config: { type: Object, required: true },
     disabled: { type: Boolean, default: false },
-    isDark: { type: Boolean, default: false }
+    isDark: { type: Boolean, default: false },
   },
   components: {
     MarmotaNavItemGroup,
@@ -159,60 +159,60 @@ export default {
     //MarmotaRow,
     MarmotaRowGroup,
     MarmotaNavRow,
-    MarmotaNavRowGroup
+    MarmotaNavRowGroup,
   },
   data() {
     return {
       localConfig: null,
-      isAllSelected: false
-    };
+      isAllSelected: false,
+    }
   },
   computed: {
     hasGroups() {
       return (
         this.localConfig.header.length > 1 || this.localConfig.forceShowGroup
-      );
+      )
     },
     hasCornerLeft() {
       return (
         this.localConfig.corner.left &&
         this.localConfig.corner.left.enabled !== false
-      );
+      )
     },
     hasCornerRight() {
       return (
         this.localConfig.navRight && this.localConfig.navRight.enabled !== false
-      );
+      )
     },
     hasNavRight() {
       return (
         this.localConfig.navRight && this.localConfig.navRight.enabled !== false
-      );
+      )
     },
     isMobile() {
-      return this.$vuetify.breakpoint.smAndDown;
-    }
+      return this.$vuetify.breakpoint.smAndDown
+    },
   },
   watch: {
     config: {
       deep: true,
       handler() {
-        this.init();
-      }
+        this.init()
+      },
     },
     isMobile() {
-      this.prepareCssVariables();
-    }
+      this.prepareCssVariables()
+    },
   },
   mounted() {
-    this.init();
-    MarmotaEventBus.$on("change", payload => this.$emit("change", payload));
-    MarmotaEventBus.$on("changeLabel", payload =>
-      this.$emit("change", payload)
-    );
-    MarmotaEventBus.$on("clickHeaderLabel", payload =>
-      this.$emit("clickHeaderLabel", payload)
-    );
+    this.init()
+    MarmotaEventBus.$on('change', (payload) => this.$emit('change', payload))
+    MarmotaEventBus.$on('changeLabel', (payload) =>
+      this.$emit('change', payload)
+    )
+    MarmotaEventBus.$on('clickHeaderLabel', (payload) =>
+      this.$emit('clickHeaderLabel', payload)
+    )
   },
   methods: {
     /**
@@ -222,26 +222,26 @@ export default {
     TODO inteligencia en seleccion de items
     */
     init() {
-      console.log("init table");
-      this.localConfig = this.prepareConfig(this.config);
+      console.log('init table')
+      this.localConfig = this.prepareConfig(this.config)
       this.$nextTick(() => {
-        this.prepareCssVariables();
-        this.prepareScrollPosition();
-      });
+        this.prepareCssVariables()
+        this.prepareScrollPosition()
+      })
     },
 
     prepareConfig(userConfig) {
       let defaultConfig = {
         isSelectable: true,
-        selectType: "leaf"
-      };
+        selectType: 'leaf',
+      }
 
       //let newConfig = utils.mergeObjects(defaultConfig, _.cloneDeep(userConfig));
-      let newConfig = { ...defaultConfig, ...userConfig };
-      newConfig.data = userConfig.data.map(item => {
-        return this.prepareItemDataConfig(item);
-      });
-      return newConfig;
+      let newConfig = { ...defaultConfig, ...userConfig }
+      newConfig.data = userConfig.data.map((item) => {
+        return this.prepareItemDataConfig(item)
+      })
+      return newConfig
     },
 
     prepareItemDataConfig(item) {
@@ -255,43 +255,43 @@ export default {
         isCloned: false, // define si es clonado de algun item distinto, usado para verificar autoguardado
         isSelected: false, // define si esta seleccionado o no un item, cambia en ejecucion
         isSelectable: true, // si un item es seleccionable
-        hasError: false // indica si una fila es valida o no, al momento de ser editada
-      };
+        hasError: false, // indica si una fila es valida o no, al momento de ser editada
+      }
 
       //let newItemConfig = utils.mergeObjects(defaultDataConfig, _.cloneDeep(item));
-      let newItemConfig = { ...defaultDataConfig, ...item };
+      let newItemConfig = { ...defaultDataConfig, ...item }
 
       if (newItemConfig.children) {
-        newItemConfig.children = newItemConfig.children.map(item => {
-          return this.prepareItemDataConfig(item);
-        });
+        newItemConfig.children = newItemConfig.children.map((item) => {
+          return this.prepareItemDataConfig(item)
+        })
       }
-      return newItemConfig;
+      return newItemConfig
     },
 
     reloadSelectAllCheckbox() {
-      let itemsSelected = this.localConfig.data.filter(i => i.isSelected);
+      let itemsSelected = this.localConfig.data.filter((i) => i.isSelected)
 
       if (itemsSelected.length == this.localConfig.data.length) {
-        this.isAllSelected = true;
+        this.isAllSelected = true
       } else {
-        this.isAllSelected = false;
+        this.isAllSelected = false
       }
     },
 
     validateItems() {
-      this.localConfig.data.forEach(item => {
-        this.validateItem(item);
-      });
+      this.localConfig.data.forEach((item) => {
+        this.validateItem(item)
+      })
     },
 
     prepareCssVariables() {
-      let navRightWidth = this.getNavRightWidth() + 10;
-      this.setCssVar("--nav_right_width", navRightWidth + "px");
+      let navRightWidth = this.getNavRightWidth() + 10
+      this.setCssVar('--nav_right_width', navRightWidth + 'px')
 
       if (this.localConfig.nav.width) {
-        let navWidth = this.localConfig.nav.width;
-        this.setCssVar("--nav_width", navWidth + "px");
+        let navWidth = this.localConfig.nav.width
+        this.setCssVar('--nav_width', navWidth + 'px')
       }
     },
 
@@ -300,98 +300,99 @@ export default {
         this.config.scroll &&
         this.config.scroll.moveToToday &&
         this.$refs.marmotaHeader &&
-        this.$refs.marmotaHeader.$refs["marmota-today"]
+        this.$refs.marmotaHeader.$refs['marmota-today']
       ) {
-        this.$refs.marmotaHeader.$refs[
-          "marmota-today"
-        ][0].scrollIntoView({ inline: "center", behavior: "smooth" });
+        this.$refs.marmotaHeader.$refs['marmota-today'][0].scrollIntoView({
+          inline: 'center',
+          behavior: 'smooth',
+        })
       } else if (this.config.scroll && this.config.scroll.moveToEnd) {
-        let container = this.$refs.tableContainer;
-        container.scrollLeft = container.scrollWidth;
+        let container = this.$refs.tableContainer
+        container.scrollLeft = container.scrollWidth
       }
     },
 
     getCssVar(varName) {
-      let $el = this.$refs.table;
+      let $el = this.$refs.table
       if ($el) {
-        let value = getComputedStyle($el).getPropertyValue(varName);
-        return value;
+        let value = getComputedStyle($el).getPropertyValue(varName)
+        return value
       }
-      return null;
+      return null
     },
 
     setCssVar(varName, value) {
-      let $el = this.$refs.table;
+      let $el = this.$refs.table
       if ($el) {
-        $el.style.setProperty(varName, value);
+        $el.style.setProperty(varName, value)
       }
     },
 
     getNavRightWidth() {
       if (this.localConfig.navRight && this.localConfig.navRight.vars) {
-        let defaultWidth = this.getCssVar("--header_item_width");
-        defaultWidth = parseFloat(defaultWidth);
+        let defaultWidth = this.getCssVar('--header_item_width')
+        defaultWidth = parseFloat(defaultWidth)
 
         let navWidth = _.reduce(
           this.localConfig.navRight.vars,
           (sum, navVar) => {
-            let width = navVar.width || defaultWidth;
+            let width = navVar.width || defaultWidth
             if (navVar.isShow) {
-              sum += navVar.isShow() ? width : 0;
+              sum += navVar.isShow() ? width : 0
             } else {
-              sum += width;
+              sum += width
             }
-            return sum;
+            return sum
           },
           0
-        );
-        return navWidth;
+        )
+        return navWidth
       }
-      return 0;
+      return 0
     },
 
     validateItem(item) {
       //TODO min, max
-      item.hasError = false;
-      this.localConfig.header.vars.forEach(headerItem => {
-        item.vars[headerItem.varName].hasError = false;
+      item.hasError = false
+      this.localConfig.header.vars.forEach((headerItem) => {
+        item.vars[headerItem.varName].hasError = false
 
         if (headerItem.required && !item.vars[headerItem.varName].value) {
-          item.hasError = true;
-          item.vars[headerItem.varName].hasError = true;
+          item.hasError = true
+          item.vars[headerItem.varName].hasError = true
         }
 
         if (headerItem.beforeTo) {
-          let dateHeaderItem = dayjs(item.vars[headerItem.varName].value);
-          let dateBeforeTo = dayjs(item.vars[headerItem.beforeTo].value);
-          if (!dateHeaderItem.isBefore(dateBeforeTo, "day")) {
-            item.hasError = true;
-            item.vars[headerItem.varName].hasError = true;
+          let dateHeaderItem = dayjs(item.vars[headerItem.varName].value)
+          let dateBeforeTo = dayjs(item.vars[headerItem.beforeTo].value)
+          if (!dateHeaderItem.isBefore(dateBeforeTo, 'day')) {
+            item.hasError = true
+            item.vars[headerItem.varName].hasError = true
           }
         }
 
         if (headerItem.afterTo) {
-          let dateHeaderItem = dayjs(item.vars[headerItem.varName].value);
-          let dateAfterTo = dayjs(item.vars[headerItem.afterTo].value);
-          if (!dateHeaderItem.isAfter(dateAfterTo, "day")) {
-            item.hasError = true;
-            item.vars[headerItem.varName].hasError = true;
+          let dateHeaderItem = dayjs(item.vars[headerItem.varName].value)
+          let dateAfterTo = dayjs(item.vars[headerItem.afterTo].value)
+          if (!dateHeaderItem.isAfter(dateAfterTo, 'day')) {
+            item.hasError = true
+            item.vars[headerItem.varName].hasError = true
           }
         }
-      });
-      return item.hasError;
+      })
+      return item.hasError
     },
 
     changeSelection(params) {
-      this.$emit("changeSelection", params);
+      this.$emit('changeSelection', params)
     },
     changeLabel(item, $event) {
-      item[this.config.nav.textLabel] = $event;
-    }
-  }
-};
+      item[this.config.nav.textLabel] = $event
+    },
+  },
+}
 </script>
 
 <style lang="scss">
-@import "./../../scss/marmota.scss";
+@import './../../scss/marmota.scss';
 </style>

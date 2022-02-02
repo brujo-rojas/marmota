@@ -1,3 +1,3 @@
-# Components
+# Ejemplos
 
-This is the index page for all of the documented components.
+Ejemplos de implementacion de Marmota

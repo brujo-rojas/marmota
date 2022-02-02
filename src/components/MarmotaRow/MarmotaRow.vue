@@ -3,7 +3,7 @@
     class="t-row"
     :class="{
       'bg-edit': item.edit && !isDisabled,
-      large: item.isLarge
+      large: item.isLarge,
     }"
   >
     <div
@@ -42,9 +42,9 @@
         >
           <div>
             {{
-              get(item, headerItem, "value") != null
-                ? get(item, headerItem, "prefix")
-                : ""
+              get(item, headerItem, 'value') != null
+                ? get(item, headerItem, 'prefix')
+                : ''
             }}
           </div>
           <input
@@ -58,9 +58,9 @@
           />
           <div>
             {{
-              get(item, headerItem, "value") != null
-                ? get(item, headerItem, "suffix")
-                : ""
+              get(item, headerItem, 'value') != null
+                ? get(item, headerItem, 'suffix')
+                : ''
             }}
           </div>
         </div>
@@ -71,9 +71,9 @@
         >
           <div>
             {{
-              get(item, headerItem, "value") != null
-                ? get(item, headerItem, "prefix")
-                : ""
+              get(item, headerItem, 'value') != null
+                ? get(item, headerItem, 'prefix')
+                : ''
             }}
           </div>
           <input
@@ -87,9 +87,9 @@
           />
           <div>
             {{
-              get(item, headerItem, "value") != null
-                ? get(item, headerItem, "suffix")
-                : ""
+              get(item, headerItem, 'value') != null
+                ? get(item, headerItem, 'suffix')
+                : ''
             }}
           </div>
         </div>
@@ -113,15 +113,15 @@
             >
               <span class="text-capitalize">
                 {{
-                  get(item, headerItem, "value") != null
-                    ? get(item, headerItem, "prefix")
-                    : ""
+                  get(item, headerItem, 'value') != null
+                    ? get(item, headerItem, 'prefix')
+                    : ''
                 }}
-                {{ formatDate(get(item, headerItem, "value")) }}
+                {{ formatDate(get(item, headerItem, 'value')) }}
                 {{
-                  get(item, headerItem, "value") != null
-                    ? get(item, headerItem, "suffix")
-                    : ""
+                  get(item, headerItem, 'value') != null
+                    ? get(item, headerItem, 'suffix')
+                    : ''
                 }}
               </span>
             </v-btn>
@@ -148,48 +148,48 @@
 </template>
 
 <script>
-import dayjs from "dayjs";
-import _ from "lodash";
-import MarmotaEventBus from "./../Marmota/MarmotaEventBus";
+import dayjs from 'dayjs'
+import _ from 'lodash'
+import MarmotaEventBus from './../Marmota/MarmotaEventBus'
 
 export default {
-  name: "MarmotaRow",
+  name: 'MarmotaRow',
   props: {
     index: { type: Number, default: -1 },
     item: { type: Object, default: null },
     parent: { type: Object, default: null },
     config: { type: Object, default: null },
-    disabled: { type: Boolean, default: false }
+    disabled: { type: Boolean, default: false },
   },
   computed: {
     isDisabled() {
-      return this.disabled;
+      return this.disabled
     },
     isMobile() {
-      return this.$vuetify.breakpoint.smAndDown;
-    }
+      return this.$vuetify.breakpoint.smAndDown
+    },
   },
   methods: {
     formatDate(date) {
-      return dayjs(date).format("D MMM, YYYY");
+      return dayjs(date).format('D MMM, YYYY')
     },
 
     changeInput(item, headerItem, newValue) {
-      this.set(item, headerItem, "value", newValue);
-      MarmotaEventBus.$emit("change", {
+      this.set(item, headerItem, 'value', newValue)
+      MarmotaEventBus.$emit('change', {
         item,
         headerItem,
         newValue,
         parent: this.parent,
-        index: this.index
-      });
-      this.validateItem(item);
+        index: this.index,
+      })
+      this.validateItem(item)
     },
 
     validateItems() {
-      this.config.data.forEach(item => {
-        this.validateItem(item);
-      });
+      this.config.data.forEach((item) => {
+        this.validateItem(item)
+      })
     },
 
     isEditable(headerItem) {
@@ -198,26 +198,26 @@ export default {
         headerItem.editable !== false &&
         this.item.editable !== false &&
         (this.item.edit || headerItem.editable)
-      );
+      )
     },
 
-    get(item, headerItem, varName = "value") {
+    get(item, headerItem, varName = 'value') {
       if (item.vars && headerItem.varName) {
-        return _.get(item.vars, headerItem.varName + "." + varName);
+        return _.get(item.vars, headerItem.varName + '.' + varName)
       }
-      return null;
+      return null
     },
 
     set(item, headerItem, varName, newValue) {
       // get var from item
-      return _.set(item.vars, headerItem.varName + "." + varName, newValue);
+      return _.set(item.vars, headerItem.varName + '.' + varName, newValue)
     },
 
     getItemStyle(headerItem) {
-      let style = "";
+      let style = ''
       if (headerItem.width) {
         style = `width: ${headerItem.width}px;
-                  flex:  0 0 ${headerItem.width}px`;
+                  flex:  0 0 ${headerItem.width}px`
       }
       if (
         this.isMobile &&
@@ -225,53 +225,53 @@ export default {
         headerItem.responsive.width
       ) {
         style = `width: ${headerItem.responsive.width}px;
-                  flex:  0 0 ${headerItem.responsive.width}px`;
+                  flex:  0 0 ${headerItem.responsive.width}px`
       }
-      return style;
+      return style
     },
 
     getClassItem(item, headerItem) {
-      let num = this.get(item, headerItem, "value");
-      let className = "";
+      let num = this.get(item, headerItem, 'value')
+      let className = ''
       if (this.config.classNameIfZero && parseFloat(num) === 0) {
-        className += this.config.classNameIfZero + " ";
+        className += this.config.classNameIfZero + ' '
       }
-      return className;
+      return className
     },
 
     validateItem(item) {
       //TODO min, max
-      item.hasError = false;
-      this.config.header.forEach(header => {
-        header.vars.forEach(headerItem => {
-          this.set(this.item, headerItem, "hasError", false);
+      item.hasError = false
+      this.config.header.forEach((header) => {
+        header.vars.forEach((headerItem) => {
+          this.set(this.item, headerItem, 'hasError', false)
 
           if (headerItem.required && !item.vars[headerItem.varName].value) {
-            item.hasError = true;
-            this.set(this.item, headerItem, "hasError", true);
+            item.hasError = true
+            this.set(this.item, headerItem, 'hasError', true)
           }
 
           if (headerItem.beforeTo) {
-            let dateHeaderItem = dayjs(item.vars[headerItem.varName].value);
-            let dateBeforeTo = dayjs(item.vars[headerItem.beforeTo].value);
-            if (!dateHeaderItem.isBefore(dateBeforeTo, "day")) {
-              item.hasError = true;
-              this.set(this.item, headerItem, "hasError", true);
+            let dateHeaderItem = dayjs(item.vars[headerItem.varName].value)
+            let dateBeforeTo = dayjs(item.vars[headerItem.beforeTo].value)
+            if (!dateHeaderItem.isBefore(dateBeforeTo, 'day')) {
+              item.hasError = true
+              this.set(this.item, headerItem, 'hasError', true)
             }
           }
 
           if (headerItem.afterTo) {
-            let dateHeaderItem = dayjs(item.vars[headerItem.varName].value);
-            let dateAfterTo = dayjs(item.vars[headerItem.afterTo].value);
-            if (!dateHeaderItem.isAfter(dateAfterTo, "day")) {
-              item.hasError = true;
-              this.set(this.item, headerItem, "hasError", true);
+            let dateHeaderItem = dayjs(item.vars[headerItem.varName].value)
+            let dateAfterTo = dayjs(item.vars[headerItem.afterTo].value)
+            if (!dateHeaderItem.isAfter(dateAfterTo, 'day')) {
+              item.hasError = true
+              this.set(this.item, headerItem, 'hasError', true)
             }
           }
-        });
-      });
-      return item.hasError;
-    }
-  }
-};
+        })
+      })
+      return item.hasError
+    },
+  },
+}
 </script>

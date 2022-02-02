@@ -1,14 +1,14 @@
 import * as components from './components'
 
 const Marmota = {
-  install(Vue, options = {}) {
+  install(Vue) {
     // components
     for (const componentName in components) {
       const component = components[componentName]
-      console.log("NAME: " , component.name);
+      console.log('NAME: ', component.name)
       Vue.component(component.name, component)
     }
-  }
+  },
 }
 
 export default Marmota

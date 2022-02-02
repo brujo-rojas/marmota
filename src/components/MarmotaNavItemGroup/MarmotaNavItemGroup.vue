@@ -4,25 +4,27 @@
     :class="{
       'bottom-fixed': footer,
       'is-inset': inset,
-      'has-inset-children': !!item.insetChildren
+      'has-inset-children': !!item.insetChildren,
     }"
   >
     <div
       class="nav-item d-flex flex-row"
       :class="{
         'bg-edit': item.edit,
-        large: item.isLarge
+        large: item.isLarge,
       }"
     >
-      <div class="nav-item-container d-flex align-center clickeable" 
-           v-show="!item.isHidden">
+      <div
+        class="nav-item-container d-flex align-center clickeable"
+        v-show="!item.isHidden"
+      >
         <v-icon
           :class="{ rotate: item.showChildren }"
           @click="toggleShowNavItem(item)"
           v-if="item.children && !inset"
           class="ml-1"
         >
-          {{icons.expandMore}}
+          {{ icons.expandMore }}
         </v-icon>
 
         <div
@@ -140,12 +142,12 @@
 </template>
 
 <script>
-import _ from "lodash";
-import MarmotaEventBus from "./../Marmota/MarmotaEventBus";
+import _ from 'lodash'
+import MarmotaEventBus from './../Marmota/MarmotaEventBus'
 import { mdiChevronDown } from '@mdi/js'
 
 export default {
-  name: "MarmotaNavItemGroup",
+  name: 'MarmotaNavItemGroup',
   props: {
     index: { type: Number, default: -1 },
     item: { type: Object, default: null },
@@ -154,72 +156,72 @@ export default {
     isChild: { type: Boolean, default: false },
     inset: { type: Boolean, default: false },
     footer: { type: Boolean, default: false },
-    disabled: { type: Boolean, default: false }
+    disabled: { type: Boolean, default: false },
   },
-  data(){
+  data() {
     return {
-      icons:{
-        expandMore: mdiChevronDown
-      }
+      icons: {
+        expandMore: mdiChevronDown,
+      },
     }
   },
   computed: {
     textLabel() {
-      return this.config.nav.textLabel || "label";
+      return this.config.nav.textLabel || 'label'
     },
     subTextLabel() {
-      return this.config.nav.subTextLabel || "subLabel";
+      return this.config.nav.subTextLabel || 'subLabel'
     },
     isDisabledInput() {
-      return !this.item.edit || this.disabled || !this.config.nav.editable;
+      return !this.item.edit || this.disabled || !this.config.nav.editable
     },
     isDisabled() {
-      return this.disabled;
-    }
+      return this.disabled
+    },
   },
   methods: {
     toggleShowNavItem(item) {
       if (item.children) {
-        item.showChildren = !item.showChildren;
+        item.showChildren = !item.showChildren
       }
     },
     changeSelection(item) {
-      this.$emit("changeSelection", {
+      this.$emit('changeSelection', {
         item,
-        itemsSelected: this.getItemsSelected(this.config.data)
-      });
+        itemsSelected: this.getItemsSelected(this.config.data),
+      })
     },
     getItemsSelected(arrayData) {
-      let selected = [];
-      arrayData.forEach(item => {
+      let selected = []
+      arrayData.forEach((item) => {
         if (item.isSelected) {
-          selected.push(item);
+          selected.push(item)
         }
         if (item.children) {
-          selected = [...selected, this.getItemsSelected(item.children)];
+          selected = [...selected, this.getItemsSelected(item.children)]
         }
-      });
-      return selected;
+      })
+      return selected
     },
     onClickLabel(item) {
       if (this.config.nav.onLabelClick) {
         this.config.nav.onLabelClick({
           item,
-          config: this.config
-        });
+          config: this.config,
+        })
       }
     },
 
     getLabel(item) {
       // get var from item
-      return _.get(item, this.textLabel);
+      return _.get(item, this.textLabel)
     },
 
     setLabel(item, newValue) {
-      this.$set(item, this.textLabel, newValue);
-      this.$emit("changeLabel", newValue);
-      MarmotaEventBus.$emit("change", { item, index: this.index });
-    }
-  }
-};
+      this.$set(item, this.textLabel, newValue)
+      this.$emit('changeLabel', newValue)
+      MarmotaEventBus.$emit('change', { item, index: this.index })
+    },
+  },
+}
 </script>

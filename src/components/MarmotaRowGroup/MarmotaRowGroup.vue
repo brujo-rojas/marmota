@@ -63,20 +63,20 @@
 </template>
 
 <script>
-import MarmotaRow from "./../MarmotaRow/MarmotaRow";
+import MarmotaRow from './../MarmotaRow/MarmotaRow'
 
 export default {
-  name: "MarmotaRowGroup",
+  name: 'MarmotaRowGroup',
   props: {
     index: { type: Number, default: -1 },
     item: { type: Object, default: null, required: true },
     parent: { type: Object, default: null },
     config: { type: Object, default: null, required: true },
     inset: { type: Boolean, default: false },
-    disabled: { type: Boolean, default: false }
+    disabled: { type: Boolean, default: false },
   },
   components: {
-    MarmotaRow
-  }
-};
+    MarmotaRow,
+  },
+}
 </script>
