@@ -25,10 +25,11 @@
           ></slot>
         </span>
 
+        <!-- BUTTON -->
         <v-btn
           small
           text
-          :disabled="isDisabled"
+          :disabled="isDisabled || item.isLoading"
           v-if="headerItem.type == 'button'"
           @click="headerItem.onClick({ item, parent, config })"
           class="ma-0 pa-1"
@@ -36,6 +37,7 @@
           {{ headerItem.label }}
         </v-btn>
 
+        <!-- NUMBER -->
         <div
           v-if="headerItem.type == 'number'"
           class="d-flex flex-row align-center flex-grow-1"
@@ -48,7 +50,9 @@
             }}
           </div>
           <input
+            :key="item.key"
             :disabled="!isEditable(headerItem)"
+            :readonly="item.isLoading"
             :class="{ 'has-error': get(item, headerItem, 'hasError') }"
             type="number"
             class="wide"
@@ -65,6 +69,7 @@
           </div>
         </div>
 
+        <!-- TEXT -->
         <div
           v-if="headerItem.type == 'text'"
           class="d-flex flex-row align-center flex-grow-1"
@@ -77,7 +82,9 @@
             }}
           </div>
           <input
+            :key="item.key"
             :disabled="!isEditable(headerItem)"
+            :readonly="item.isLoading"
             :class="{ 'has-error': get(item, headerItem, 'hasError') }"
             type="text"
             class="wide"
@@ -94,11 +101,12 @@
           </div>
         </div>
 
+        <!-- DATE -->
         <v-menu
           v-if="headerItem.type == 'date'"
           ref="menu"
           :value="get(item, headerItem, 'menu')"
-          :disabled="!isEditable(headerItem)"
+          :disabled="!isEditable(headerItem) || item.isLoading"
           :close-on-content-click="false"
           transition="scale-transition"
           offset-y
@@ -136,6 +144,52 @@
           </v-date-picker>
         </v-menu>
 
+
+
+        <v-select
+          :key="item.key"
+          v-if="headerItem.type == 'select' && headerItem.itemsSelect"
+          :items="headerItem.itemsSelect"
+          :label="headerItem.label || ''"
+          :disabled="!isEditable(headerItem) || item.isLoading"
+          :class="{ 'has-error': get(item, headerItem, 'hasError') }"
+          @change="changeInput(item, headerItem, $event)"
+          :value="get(item, headerItem, 'value')"
+          return-object
+          hide-details
+          single-line
+          :multiple="headerItem.selectIsMultiple"
+          :item-text="headerItem.itemText || 'label'"
+          item-color="accent"
+          >
+
+          <template v-slot:prepend-item="{ select }">
+            <div v-if="headerItem.nulleable">
+            <v-list-item
+              ripple
+              @click="select(null)"
+              >
+              <v-list-item-content>
+                <v-list-item-title>
+                  No Asignar
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-divider class="mt-2"></v-divider>
+            </div>
+          </template>
+
+
+          <template v-slot:selection="{ item:localItem, index }">
+              <span v-if="index === 0" class="truncate">
+                <span v-if="(get(item, headerItem, 'value') || [] ).length > 1" class="accent--text text-caption">
+                  (+{{ (get(item, headerItem, 'value') || [] ).length - 1 }})
+                </span>
+                {{localItem[headerItem.itemText || 'label'] }}
+              </span>
+          </template>
+        </v-select>
+
         <span class="append-cell">
           <slot
             name="appendCell"
@@ -148,9 +202,10 @@
 </template>
 
 <script>
-import dayjs from 'dayjs'
-import _ from 'lodash'
-import MarmotaEventBus from './../Marmota/MarmotaEventBus'
+import dayjs from 'dayjs';
+import _ from 'lodash';
+import utils from "./../../utils/utils.js";
+import MarmotaEventBus from './../Marmota/MarmotaEventBus';
 
 export default {
   name: 'MarmotaRow',
@@ -163,19 +218,22 @@ export default {
   },
   computed: {
     isDisabled() {
-      return this.disabled
+      return this.disabled 
     },
     isMobile() {
       return this.$vuetify.breakpoint.smAndDown
     },
   },
   methods: {
+    get: utils.get,
+    set: utils.set,
+
     formatDate(date) {
-      return dayjs(date).format('D MMM, YYYY')
+      return dayjs(date).format('D MMM, YYYY') 
     },
 
     changeInput(item, headerItem, newValue) {
-      this.set(item, headerItem, 'value', newValue)
+      utils.set(item, headerItem, 'value', newValue)
       MarmotaEventBus.$emit('change', {
         item,
         headerItem,
@@ -183,13 +241,7 @@ export default {
         parent: this.parent,
         index: this.index,
       })
-      this.validateItem(item)
-    },
-
-    validateItems() {
-      this.config.data.forEach((item) => {
-        this.validateItem(item)
-      })
+      utils.validateRowItem(item)
     },
 
     isEditable(headerItem) {
@@ -199,18 +251,6 @@ export default {
         this.item.editable !== false &&
         (this.item.edit || headerItem.editable)
       )
-    },
-
-    get(item, headerItem, varName = 'value') {
-      if (item.vars && headerItem.varName) {
-        return _.get(item.vars, headerItem.varName + '.' + varName)
-      }
-      return null
-    },
-
-    set(item, headerItem, varName, newValue) {
-      // get var from item
-      return _.set(item.vars, headerItem.varName + '.' + varName, newValue)
     },
 
     getItemStyle(headerItem) {
@@ -231,7 +271,7 @@ export default {
     },
 
     getClassItem(item, headerItem) {
-      let num = this.get(item, headerItem, 'value')
+      let num = utils.get(item, headerItem, 'value')
       let className = ''
       if (this.config.classNameIfZero && parseFloat(num) === 0) {
         className += this.config.classNameIfZero + ' '
@@ -239,39 +279,20 @@ export default {
       return className
     },
 
-    validateItem(item) {
-      //TODO min, max
-      item.hasError = false
-      this.config.header.forEach((header) => {
-        header.vars.forEach((headerItem) => {
-          this.set(this.item, headerItem, 'hasError', false)
-
-          if (headerItem.required && !item.vars[headerItem.varName].value) {
-            item.hasError = true
-            this.set(this.item, headerItem, 'hasError', true)
-          }
-
-          if (headerItem.beforeTo) {
-            let dateHeaderItem = dayjs(item.vars[headerItem.varName].value)
-            let dateBeforeTo = dayjs(item.vars[headerItem.beforeTo].value)
-            if (!dateHeaderItem.isBefore(dateBeforeTo, 'day')) {
-              item.hasError = true
-              this.set(this.item, headerItem, 'hasError', true)
-            }
-          }
-
-          if (headerItem.afterTo) {
-            let dateHeaderItem = dayjs(item.vars[headerItem.varName].value)
-            let dateAfterTo = dayjs(item.vars[headerItem.afterTo].value)
-            if (!dateHeaderItem.isAfter(dateAfterTo, 'day')) {
-              item.hasError = true
-              this.set(this.item, headerItem, 'hasError', true)
-            }
-          }
-        })
-      })
-      return item.hasError
+    getClassInput(item, headerItem){
+      return { 'has-error': utils.get(item, headerItem, 'hasError') };
     },
+
+    validateItems() {
+      let hasErrors = false;
+      this.config.data.forEach((item) => {
+        if( utils.validateRowItem(item)){
+          hasErrors = true;
+        }
+      })
+      return hasErrors;
+    },
+
   },
 }
 </script>

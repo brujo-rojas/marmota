@@ -27,7 +27,7 @@
           icon
           :disabled="isDisabled"
           v-if="navColumn.type == 'icon-button'"
-          @click="navColumn.onClick({ item, parent, config, index })"
+          @click="navColumn.onClick({ item, parent, config, index, validateRowItem})"
           class="my-0 mx-auto pa-1"
           color="white"
         >
@@ -41,7 +41,7 @@
           text
           :disabled="isDisabled"
           v-if="navColumn.type == 'button'"
-          @click="navColumn.onClick({ item, parent, config, index })"
+          @click="navColumn.onClick({ item, parent, config, index, validateRowItem})"
           class="ma-0 pa-1"
           color="white"
         >
@@ -135,8 +135,9 @@
 </template>
 
 <script>
-import dayjs from 'dayjs'
-import _ from 'lodash'
+import dayjs from 'dayjs';
+import _ from 'lodash';
+import utils from "./../../utils/utils.js";
 
 export default {
   name: 'MarmotaNavRow',
@@ -157,27 +158,16 @@ export default {
     },
   },
   methods: {
+    validateRowItem: utils.validateRowItem,
+    get: utils.get,
+    set: utils.set,
+
     formatDate(date) {
       return dayjs(date).format('D MMM, YYYY')
     },
     changeInput(item, navColumn, newValue) {
-      this.set(navColumn, 'value', newValue)
-      this.validateItem(item)
-    },
-    validateItems() {
-      this.config.data.forEach((item) => {
-        this.validateItem(item)
-      })
-    },
-
-    get(navColumn, varName) {
-      // get var from item
-      return _.get(this.item.vars, navColumn.varName + '.' + varName)
-    },
-
-    set(navColumn, varName, newValue) {
-      // get var from item
-      return _.set(this.item.vars, navColumn.varName + '.' + varName, newValue)
+      utils.set(navColumn, 'value', newValue)
+      this.validateNavItem(item)
     },
 
     getItemStyle(headerItem) {
@@ -190,38 +180,16 @@ export default {
       return style
     },
 
-    validateItem(item) {
-      //TODO min, max
-      //TODO TESTING-- navRight debe ser un atributo configurable
-      item.hasError = false
-      this.config.navRight.vars.forEach((navColumn) => {
-        this.set(navColumn, 'hasError', false)
-
-        if (navColumn.required && !item.vars[navColumn.varName].value) {
-          item.hasError = true
-          this.set(navColumn, 'hasError', true)
-        }
-
-        if (navColumn.beforeTo) {
-          let dateNavItem = dayjs(item.vars[navColumn.varName].value)
-          let dateBeforeTo = dayjs(item.vars[navColumn.beforeTo].value)
-          if (!dateNavItem.isBefore(dateBeforeTo, 'day')) {
-            item.hasError = true
-            this.set(navColumn, 'hasError', true)
-          }
-        }
-
-        if (navColumn.afterTo) {
-          let dateNavItem = dayjs(item.vars[navColumn.varName].value)
-          let dateAfterTo = dayjs(item.vars[navColumn.afterTo].value)
-          if (!dateNavItem.isAfter(dateAfterTo, 'day')) {
-            item.hasError = true
-            this.set(navColumn, 'hasError', true)
-          }
+    validateItems() {
+      let hasErrors = false;
+      this.config.data.forEach((item) => {
+        if( utils.validateNavItem(item)){
+          hasErrors = true;
         }
       })
-      return item.hasError
+      return hasErrors;
     },
+
   },
 }
 </script>

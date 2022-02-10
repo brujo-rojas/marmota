@@ -173,7 +173,7 @@ export default {
       return this.config.nav.subTextLabel || 'subLabel'
     },
     isDisabledInput() {
-      return !this.item.edit || this.disabled || !this.config.nav.editable
+      return !this.item.edit || this.disabled || !this.config.nav.editable || this.item.isLoading;
     },
     isDisabled() {
       return this.disabled

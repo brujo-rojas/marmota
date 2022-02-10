@@ -23,7 +23,7 @@ export default {
     init(){
 
       let config = {
-        isSelectable: false,
+        isSelectable: true,
 
         corner : {
           left : {
@@ -40,6 +40,7 @@ export default {
         nav:{
           textLabel    : "label",
           subTextLabel : "subLabel",
+          editable: true,
           width: 200,
           onLabelClick({item}){
           },

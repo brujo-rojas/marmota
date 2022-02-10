@@ -3,10 +3,10 @@
     ref="table"
     class="marmota"
     :class="{ 'dark-theme': isDark, 'has-groups': hasGroups }"
-    v-if="localConfig"
+    v-if="config"
   >
     <marmota-corner
-      :config="localConfig"
+      :config="config"
       v-if="hasCornerLeft"
       @changeSelection="changeSelection"
     ></marmota-corner>
@@ -16,14 +16,14 @@
       disable-selection
       :has-groups="hasGroups"
       v-if="hasCornerRight"
-      :config="localConfig"
+      :config="config"
     ></marmota-corner>
 
     <div class="table-container" ref="tableContainer">
       <marmota-header
         ref="marmotaHeader"
         :has-groups="hasGroups"
-        :config="localConfig"
+        :config="config"
       >
         <template v-slot:appendItemHeaderGroup="props">
           <slot name="appendItemHeaderGroup" v-bind="props"></slot>
@@ -32,10 +32,10 @@
 
       <nav>
         <marmota-nav-item-group
-          v-for="(item, index) in localConfig.data"
+          v-for="(item, index) in config.data"
           v-show="!item.isHidden"
           :index="index"
-          :config="localConfig"
+          :config="config"
           :disabled="disabled"
           @changeSelection="changeSelection"
           :item="item"
@@ -52,12 +52,12 @@
         </marmota-nav-item-group>
 
         <marmota-nav-item-group
-          v-if="localConfig.footer"
+          v-if="config.footer"
           :index="-2"
-          :config="localConfig"
+          :config="config"
           :disabled="disabled"
           @changeSelection="changeSelection"
-          :item="localConfig.footer"
+          :item="config.footer"
           footer
         >
         </marmota-nav-item-group>
@@ -65,12 +65,12 @@
 
       <nav class="nav-right table-mode" v-if="hasNavRight">
         <marmota-nav-row-group
-          v-for="(item, index) in localConfig.data"
+          v-for="(item, index) in config.data"
           v-show="!item.isHidden"
           :key="index"
           :index="index"
           :disabled="disabled"
-          :config="localConfig"
+          :config="config"
           :item="item"
         >
           <template v-slot:preppendCell="props">
@@ -83,9 +83,9 @@
         </marmota-nav-row-group>
         <marmota-nav-row
           :index="-2"
-          v-if="localConfig.footer"
-          :item="localConfig.footer"
-          :config="localConfig"
+          v-if="config.footer"
+          :item="config.footer"
+          :config="config"
           :disabled="disabled"
           footer
         >
@@ -94,12 +94,12 @@
 
       <div class="table">
         <marmota-row-group
-          v-for="(item, index) in localConfig.data"
+          v-for="(item, index) in config.data"
           v-show="!item.isHidden"
           :disabled="disabled"
           :key="index"
           :index="index"
-          :config="localConfig"
+          :config="config"
           :item="item"
         >
           <template v-slot:preppendCell="props">
@@ -115,9 +115,9 @@
           class="table-footer bottom-fixed"
           :disabled="disabled"
           :index="-2"
-          :config="localConfig"
-          v-if="localConfig.footer"
-          :item="localConfig.footer"
+          :config="config"
+          v-if="config.footer"
+          :item="config.footer"
         >
           <template v-slot:preppendCell="props">
             <slot name="preppendCell" v-bind="props"></slot>
@@ -135,11 +135,11 @@
 <script>
 //import utils from "@/utils/utils";
 import dayjs from 'dayjs'
+import utils from "./../../utils/utils.js";
 import _ from 'lodash'
 import MarmotaNavItemGroup from './../MarmotaNavItemGroup'
 import MarmotaCorner from './../MarmotaCorner'
 import MarmotaHeader from './../MarmotaHeader'
-//import MarmotaRow           from '@/components/Marmota/components/MarmotaRow'
 import MarmotaRowGroup from './../MarmotaRowGroup'
 import MarmotaNavRow from './../MarmotaNavRow'
 import MarmotaNavRowGroup from './../MarmotaNavRowGroup'
@@ -148,7 +148,6 @@ import MarmotaEventBus from './MarmotaEventBus'
 export default {
   name: 'Marmota',
   props: {
-    config: { type: Object, required: true },
     disabled: { type: Boolean, default: false },
     isDark: { type: Boolean, default: false },
   },
@@ -156,64 +155,41 @@ export default {
     MarmotaNavItemGroup,
     MarmotaCorner,
     MarmotaHeader,
-    //MarmotaRow,
     MarmotaRowGroup,
     MarmotaNavRow,
     MarmotaNavRowGroup,
   },
   data() {
     return {
-      localConfig: null,
+      config: null,
       isAllSelected: false,
     }
   },
   computed: {
     hasGroups() {
-      return (
-        this.localConfig.header.length > 1 || this.localConfig.forceShowGroup
-      )
+      return this.config.header.length > 1 || this.config.forceShowGroup
     },
     hasCornerLeft() {
       return (
-        this.localConfig.corner.left &&
-        this.localConfig.corner.left.enabled !== false
+        this.config.corner.left && this.config.corner.left.enabled !== false
       )
     },
     hasCornerRight() {
-      return (
-        this.localConfig.navRight && this.localConfig.navRight.enabled !== false
-      )
+      return this.config.navRight && this.config.navRight.enabled !== false
     },
     hasNavRight() {
-      return (
-        this.localConfig.navRight && this.localConfig.navRight.enabled !== false
-      )
+      return this.config.navRight && this.config.navRight.enabled !== false
     },
     isMobile() {
       return this.$vuetify.breakpoint.smAndDown
     },
   },
   watch: {
-    config: {
-      deep: true,
-      handler() {
-        this.init()
-      },
-    },
     isMobile() {
       this.prepareCssVariables()
     },
   },
-  mounted() {
-    this.init()
-    MarmotaEventBus.$on('change', (payload) => this.$emit('change', payload))
-    MarmotaEventBus.$on('changeLabel', (payload) =>
-      this.$emit('change', payload)
-    )
-    MarmotaEventBus.$on('clickHeaderLabel', (payload) =>
-      this.$emit('clickHeaderLabel', payload)
-    )
-  },
+
   methods: {
     /**
     TODO ordenar por columnas
@@ -221,13 +197,18 @@ export default {
     TODO tooltip y notas en navLEft header y en celdas donde es necesario
     TODO inteligencia en seleccion de items
     */
-    init() {
-      console.log('init table')
-      this.localConfig = this.prepareConfig(this.config)
-      this.$nextTick(() => {
-        this.prepareCssVariables()
-        this.prepareScrollPosition()
-      })
+    init(initialConfig) {
+      if (initialConfig && initialConfig.data) {
+        console.log('init marmota')
+        this.config = this.prepareConfig(initialConfig)
+
+        this.addEvents()
+        this.$nextTick(() => {
+          this.prepareCssVariables()
+          this.prepareScrollPosition()
+        })
+        return this.config
+      }
     },
 
     prepareConfig(userConfig) {
@@ -237,8 +218,9 @@ export default {
       }
 
       //let newConfig = utils.mergeObjects(defaultConfig, _.cloneDeep(userConfig));
-      let newConfig = { ...defaultConfig, ...userConfig }
-      newConfig.data = userConfig.data.map((item) => {
+      let userConfigClon = _.cloneDeep(userConfig)
+      let newConfig = { ...defaultConfig, ...userConfigClon }
+      newConfig.data = userConfigClon.data.map((item) => {
         return this.prepareItemDataConfig(item)
       })
       return newConfig
@@ -246,9 +228,10 @@ export default {
 
     prepareItemDataConfig(item) {
       let defaultDataConfig = {
+        key: 1,
         showChildren: true, // despliega o no hijos,
         edit: false, // si esta en edicion, cambia al editarse
-        editable: true,
+        editable: true, // si tendra opcio de edicion
         isLoading: false, //si es que esta cargando, cambia en ejecucion
         isNew: false, // define si es nuevo, para items agregados desde tabla
         isLarge: false, // genera altura doble para fila
@@ -270,9 +253,9 @@ export default {
     },
 
     reloadSelectAllCheckbox() {
-      let itemsSelected = this.localConfig.data.filter((i) => i.isSelected)
+      let itemsSelected = this.config.data.filter((i) => i.isSelected)
 
-      if (itemsSelected.length == this.localConfig.data.length) {
+      if (itemsSelected.length == this.config.data.length) {
         this.isAllSelected = true
       } else {
         this.isAllSelected = false
@@ -280,17 +263,27 @@ export default {
     },
 
     validateItems() {
-      this.localConfig.data.forEach((item) => {
-        this.validateItem(item)
+      this.config.data.forEach((item) => {
+        utils.validateItem(item)
       })
+    },
+
+    addEvents() {
+      MarmotaEventBus.$on('change', (payload) => this.$emit('change', payload))
+      MarmotaEventBus.$on('changeLabel', (payload) =>
+        this.$emit('change', payload)
+      )
+      MarmotaEventBus.$on('clickHeaderLabel', (payload) =>
+        this.$emit('clickHeaderLabel', payload)
+      )
     },
 
     prepareCssVariables() {
       let navRightWidth = this.getNavRightWidth() + 10
       this.setCssVar('--nav_right_width', navRightWidth + 'px')
 
-      if (this.localConfig.nav.width) {
-        let navWidth = this.localConfig.nav.width
+      if (this.config.nav.width) {
+        let navWidth = this.config.nav.width
         this.setCssVar('--nav_width', navWidth + 'px')
       }
     },
@@ -329,12 +322,12 @@ export default {
     },
 
     getNavRightWidth() {
-      if (this.localConfig.navRight && this.localConfig.navRight.vars) {
+      if (this.config.navRight && this.config.navRight.vars) {
         let defaultWidth = this.getCssVar('--header_item_width')
         defaultWidth = parseFloat(defaultWidth)
 
         let navWidth = _.reduce(
-          this.localConfig.navRight.vars,
+          this.config.navRight.vars,
           (sum, navVar) => {
             let width = navVar.width || defaultWidth
             if (navVar.isShow) {
@@ -351,37 +344,6 @@ export default {
       return 0
     },
 
-    validateItem(item) {
-      //TODO min, max
-      item.hasError = false
-      this.localConfig.header.vars.forEach((headerItem) => {
-        item.vars[headerItem.varName].hasError = false
-
-        if (headerItem.required && !item.vars[headerItem.varName].value) {
-          item.hasError = true
-          item.vars[headerItem.varName].hasError = true
-        }
-
-        if (headerItem.beforeTo) {
-          let dateHeaderItem = dayjs(item.vars[headerItem.varName].value)
-          let dateBeforeTo = dayjs(item.vars[headerItem.beforeTo].value)
-          if (!dateHeaderItem.isBefore(dateBeforeTo, 'day')) {
-            item.hasError = true
-            item.vars[headerItem.varName].hasError = true
-          }
-        }
-
-        if (headerItem.afterTo) {
-          let dateHeaderItem = dayjs(item.vars[headerItem.varName].value)
-          let dateAfterTo = dayjs(item.vars[headerItem.afterTo].value)
-          if (!dateHeaderItem.isAfter(dateAfterTo, 'day')) {
-            item.hasError = true
-            item.vars[headerItem.varName].hasError = true
-          }
-        }
-      })
-      return item.hasError
-    },
 
     changeSelection(params) {
       this.$emit('changeSelection', params)
