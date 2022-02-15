@@ -61,6 +61,7 @@
           content-class="v-tooltip--white-big elevation-10"
           right
           open-delay="200"
+          :disabled="!item.tooltip"
           v-if="!item.edit || inset"
         >
           <template v-slot:activator="{ on, attrs }">

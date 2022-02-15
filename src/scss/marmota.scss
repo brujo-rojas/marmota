@@ -453,11 +453,14 @@
         color: inherit;
       }
 
-      .v-select__slot .v-select__selections{
-        color: currentColor;
-      }
-      .v-select__slot .v-select__selections input:not([role='button']) {
-        display: none;
+      .v-select{
+        padding-top:0px;
+        .v-select__slot .v-select__selections{
+          color: currentColor;
+        }
+        .v-select__slot .v-select__selections input:not([role='button']) {
+          display: none;
+        }
       }
 
       & > div > input {

@@ -282,10 +282,14 @@ export default {
       let navRightWidth = this.getNavRightWidth() + 10
       this.setCssVar('--nav_right_width', navRightWidth + 'px')
 
-      if (this.config.nav.width) {
-        let navWidth = this.config.nav.width
-        this.setCssVar('--nav_width', navWidth + 'px')
-      }
+      if(this.isMobile && this.config.nav.mobile &&
+        this.config.nav.mobile.width){
+          let navWidth = this.config.nav.mobile.width
+          this.setCssVar('--nav_width', navWidth + 'px') 
+        }else if (this.config.nav.width) {
+          let navWidth = this.config.nav.width
+          this.setCssVar('--nav_width', navWidth + 'px')
+        }
     },
 
     prepareScrollPosition() {

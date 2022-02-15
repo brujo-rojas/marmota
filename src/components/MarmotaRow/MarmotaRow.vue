@@ -150,10 +150,10 @@
           :key="item.key"
           v-if="headerItem.type == 'select' && headerItem.itemsSelect"
           :items="headerItem.itemsSelect"
-          :label="headerItem.label || ''"
           :disabled="!isEditable(headerItem) || item.isLoading"
           :class="{ 'has-error': get(item, headerItem, 'hasError') }"
           @change="changeInput(item, headerItem, $event)"
+          :menu-props="{ closeOnContentClick: !headerItem.selectIsMultiple}"
           :value="get(item, headerItem, 'value')"
           return-object
           hide-details
@@ -161,17 +161,18 @@
           :multiple="headerItem.selectIsMultiple"
           :item-text="headerItem.itemText || 'label'"
           item-color="accent"
+          color="accent"
           >
 
-          <template v-slot:prepend-item="{ select }">
-            <div v-if="headerItem.nulleable">
+          <template v-slot:prepend-item>
+            <div v-if="headerItem.nulleable" >
             <v-list-item
               ripple
-              @click="select(null)"
+              @click="changeInput(item, headerItem, null)"
               >
               <v-list-item-content>
                 <v-list-item-title>
-                  No Asignar
+                  {{headerItem.itemNulleableText || "No Asignar"}}
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
