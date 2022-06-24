@@ -30,7 +30,7 @@
         </template>
       </marmota-header>
 
-      <nav>
+      <nav v-if="hasNav">
         <marmota-nav-item-group
           v-for="(item, index) in config.data"
           v-show="!item.isHidden"
@@ -135,7 +135,7 @@
 <script>
 //import utils from "@/utils/utils";
 import dayjs from 'dayjs'
-import utils from "./../../utils/utils.js";
+import utils from './../../utils/utils.js'
 import _ from 'lodash'
 import MarmotaNavItemGroup from './../MarmotaNavItemGroup'
 import MarmotaCorner from './../MarmotaCorner'
@@ -171,14 +171,20 @@ export default {
     },
     hasCornerLeft() {
       return (
-        this.config.corner.left && this.config.corner.left.enabled !== false
+        this.config.corner &&
+        this.config.corner.left &&
+        this.config.corner.left.enabled !== false &&
+        this.hasNav
       )
     },
     hasCornerRight() {
-      return this.config.navRight && this.config.navRight.enabled !== false
+      return this.hasNavRight
     },
     hasNavRight() {
       return this.config.navRight && this.config.navRight.enabled !== false
+    },
+    hasNav() {
+      return this.config.nav && this.config.nav.enabled !== false
     },
     isMobile() {
       return this.$vuetify.breakpoint.smAndDown
@@ -262,10 +268,13 @@ export default {
       }
     },
 
+    validateItem: (props) => utils.validateItem(props),
     validateItems() {
+      let hasError = false
       this.config.data.forEach((item) => {
-        utils.validateItem(item)
+        hasError = this.validateItem(item)
       })
+      return hasError
     },
 
     addEvents() {
@@ -282,14 +291,19 @@ export default {
       let navRightWidth = this.getNavRightWidth() + 10
       this.setCssVar('--nav_right_width', navRightWidth + 'px')
 
-      if(this.isMobile && this.config.nav.mobile &&
-        this.config.nav.mobile.width){
-          let navWidth = this.config.nav.mobile.width
-          this.setCssVar('--nav_width', navWidth + 'px') 
-        }else if (this.config.nav.width) {
-          let navWidth = this.config.nav.width
-          this.setCssVar('--nav_width', navWidth + 'px')
+      let navWidth = 0
+      if (this.config.nav) {
+        if (
+          this.isMobile &&
+          this.config.nav.mobile &&
+          this.config.nav.mobile.width
+        ) {
+          navWidth = this.config.nav.mobile.width
+        } else if (this.config.nav.width) {
+          navWidth = this.config.nav.width
         }
+      }
+      this.setCssVar('--nav_width', navWidth + 'px')
     },
 
     prepareScrollPosition() {
@@ -348,12 +362,13 @@ export default {
       return 0
     },
 
-
     changeSelection(params) {
       this.$emit('changeSelection', params)
     },
     changeLabel(item, $event) {
-      item[this.config.nav.textLabel] = $event
+      if (this.config.nav && this.config.nav.textLabel) {
+        item[this.config.nav.textLabel] = $event
+      }
     },
   },
 }

@@ -146,8 +146,11 @@
       //border-right: unset;
     }
 
-    &.is-actual,
     &.is-active {
+    }
+
+    &.has-one-column{
+      flex-grow: 0 !important;
     }
 
     .header-item-group-top {
@@ -186,14 +189,7 @@
           }
         }
 
-        &.has-one-column {
-          overflow: hidden;
-          justify-content: start;
-          .header-item-group-title {
-            position: unset;
-            width: stretch;
-          }
-        }
+
       }
     }
 
@@ -207,9 +203,6 @@
       flex-direction: row;
       flex-wrap: nowrap;
       justify-content: flex-start;
-
-      .header-item {
-      }
     }
   }
 
@@ -227,8 +220,11 @@
     }
 
     span {
-      border-radius: 3px;
+      //border-radius: 3px;
       //padding: 2px 2rem;
+      &.header-item--sublabel {
+        font-size: 0.75em;
+      }
     }
   }
 
@@ -325,7 +321,9 @@
         }
       }
 
-      input {
+      input[type='text'],
+      input[type='password'],
+      input[type='number'] {
         height: calc(var(--item_height) - 8px);
         border-radius: 2px;
         text-align: left;
@@ -444,7 +442,7 @@
         line-height: var(--item_height_large);
       }
 
-      span {
+      & > span {
         text-align: right;
       }
 
@@ -453,35 +451,43 @@
         color: inherit;
       }
 
-      .v-select{
-        padding-top:0px;
-        .v-select__slot .v-select__selections{
+      .v-select {
+        padding-top: 0px;
+        .v-select__slot .v-select__selections {
           color: currentColor;
         }
         .v-select__slot .v-select__selections input:not([role='button']) {
           display: none;
         }
+        .v-input__control .v-input__slot{
+          height: auto;
+          min-height: auto;
+        }
       }
 
       & > div > input {
-        height: calc(var(--item_height) - 8px);
-        border-radius: 2px;
-        text-align: right;
-        padding-right: 6px;
-        width: 100%;
-        outline-width: 0px;
+        &[type='text'],
+        &[type='password'],
+        &[type='number'] {
+          height: calc(var(--item_height) - 8px);
+          border-radius: 2px;
+          text-align: right;
+          padding-right: 6px;
+          width: 100%;
+          outline-width: 0px;
 
-        &.mini {
-          display: inline;
-          width: 3em;
-          font-size: 0.875em;
-        }
+          &.mini {
+            display: inline;
+            width: 3em;
+            font-size: 0.875em;
+          }
 
-        &.full {
-          width: calc(100% + 16px);
-          margin-left: -8px;
-          margin-right: -8px;
-          height: 100%;
+          &.full {
+            width: calc(100% + 16px);
+            margin-left: -8px;
+            margin-right: -8px;
+            height: 100%;
+          }
         }
       }
     }

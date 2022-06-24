@@ -12,7 +12,8 @@
   }
 
   .has-error {
-    border: 1px solid red !important;
+    border: 2px solid red !important;
+    box-shadow: 0px 0px 2px red;
   }
 
   .v-icon.rotate{

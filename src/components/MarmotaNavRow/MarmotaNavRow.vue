@@ -3,6 +3,7 @@
     class="t-row"
     :class="{
       'bg-edit': item.edit,
+      'has-error': item.hasError,
       large: item.isLarge,
       'bottom-fixed': footer,
     }"
@@ -25,9 +26,12 @@
         <v-btn
           small
           icon
-          :disabled="isDisabled"
+          :disabled="isDisabled && !navColumn.withLoading"
+          :loading="item.isLoading && navColumn.withLoading"
           v-if="navColumn.type == 'icon-button'"
-          @click="navColumn.onClick({ item, parent, config, index, validateRowItem})"
+          @click="
+            navColumn.onClick({ item, parent, config, index, validateRowItem })
+          "
           class="my-0 mx-auto pa-1"
           color="white"
         >
@@ -36,17 +40,31 @@
           </v-icon>
         </v-btn>
 
+        <!-- BUTTON -->
+        <div
+          v-if="navColumn.type == 'button'"
+          class="justify-center"
+        >
         <v-btn
           small
-          text
-          :disabled="isDisabled"
-          v-if="navColumn.type == 'button'"
-          @click="navColumn.onClick({ item, parent, config, index, validateRowItem})"
+          outlined
+          :disabled="isDisabled && !navColumn.withLoading"
+          :loading="item.isLoading && navColumn.withLoading"
+          @click="
+            navColumn.onClick({ item, parent, config, index, validateRowItem })
+          "
           class="ma-0 pa-1"
           color="white"
         >
-          {{ navColumn.label }}
+          <span
+            v-html="
+              navColumn.labelFormatter
+                ? navColumn.labelFormatter({ config, item })
+                : navColumn.label
+            "
+          ></span>
         </v-btn>
+        </div>
 
         <div
           v-if="navColumn.type == 'number'"
@@ -100,7 +118,7 @@
         >
           <template v-slot:activator="{ on }">
             <v-btn
-              text
+              outlined
               :ripple="item.edit"
               :disabled="isDisabledInput"
               :class="{ 'has-error': get(navColumn, 'hasError') }"
@@ -135,9 +153,9 @@
 </template>
 
 <script>
-import dayjs from 'dayjs';
-import _ from 'lodash';
-import utils from "./../../utils/utils.js";
+import dayjs from 'dayjs'
+import _ from 'lodash'
+import utils from './../../utils/utils.js'
 
 export default {
   name: 'MarmotaNavRow',
@@ -154,7 +172,7 @@ export default {
       return !this.item.edit || this.disabled
     },
     isDisabled() {
-      return this.disabled
+      return this.disabled || this.item.isLoading;
     },
   },
   methods: {
@@ -179,17 +197,6 @@ export default {
       }
       return style
     },
-
-    validateItems() {
-      let hasErrors = false;
-      this.config.data.forEach((item) => {
-        if( utils.validateNavItem(item)){
-          hasErrors = true;
-        }
-      })
-      return hasErrors;
-    },
-
   },
 }
 </script>

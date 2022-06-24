@@ -88,9 +88,11 @@
           v-show="item.edit && !inset"
           :disabled="isDisabledInput"
           type="text"
+          :class="{ 'has-error': item.hasLabelError}"
+          :key="item.key"
           class="wide"
           :value="getLabel(item)"
-          @input="setLabel(item, $event.target.value)"
+          @change="setLabel(item, $event.target.value)"
         />
       </div>
 
@@ -144,6 +146,7 @@
 
 <script>
 import _ from 'lodash'
+import utils from './../../utils/utils.js'
 import MarmotaEventBus from './../Marmota/MarmotaEventBus'
 import { mdiChevronDown } from '@mdi/js'
 
@@ -219,9 +222,12 @@ export default {
     },
 
     setLabel(item, newValue) {
+      item.hasLabelError= false;
+
       this.$set(item, this.textLabel, newValue)
       this.$emit('changeLabel', newValue)
       MarmotaEventBus.$emit('change', { item, index: this.index })
+      utils.validateLabelItem({config: this.config, item})
     },
   },
 }

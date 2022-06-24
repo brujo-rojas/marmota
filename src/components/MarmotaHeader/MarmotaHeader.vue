@@ -5,6 +5,7 @@
       :style="getGroupStyle(headerGroup)"
       :ref="headerGroup.isToday ? 'marmota-today' : ''"
       v-for="(headerGroup, index) in config.header"
+      :class="{ 'has-one-column': headerGroup.vars.length == 1 }"
       :key="index"
     >
       <div class="header-item-group-top" v-show="hasGroups">
@@ -17,7 +18,6 @@
           <template v-slot:activator="{ on, attrs }">
             <div
               class="header-item-group-top-container"
-              :class="{ 'has-one-column': headerGroup.vars.length == 1 }"
               v-bind="attrs"
               v-on="on"
             >
@@ -58,11 +58,11 @@
             open-delay="200"
             :disabled="!headerItem.tooltip"
           >
-            <template v-slot:activator="{ on, attrs }">
-              <span v-bind="attrs" v-on="on" class="d-block">
-                {{ headerItem.label }}
-              </span>
-            </template>
+          <template v-slot:activator="{ on, attrs }">
+            <span v-bind="attrs" v-on="on" class="d-block">
+              {{ headerItem.label }}
+            </span>
+          </template>
             <span>
               {{ headerItem.tooltip }}
             </span>

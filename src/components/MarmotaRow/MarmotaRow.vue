@@ -3,6 +3,7 @@
     class="t-row"
     :class="{
       'bg-edit': item.edit && !isDisabled,
+      'has-error': item.hasError, 
       large: item.isLarge,
     }"
   >
@@ -26,16 +27,32 @@
         </span>
 
         <!-- BUTTON -->
-        <v-btn
-          small
-          text
-          :disabled="isDisabled || item.isLoading"
+        <div
           v-if="headerItem.type == 'button'"
-          @click="headerItem.onClick({ item, parent, config })"
-          class="ma-0 pa-1"
+          class="justify-center d-flex flex-grow-1"
         >
-          {{ headerItem.label }}
-        </v-btn>
+          <v-btn
+            small
+            outlined
+            :disabled="isDisabled || item.isLoading || (headerItem.enabler && !headerItem.enabler({item, config}))"
+            @click="headerItem.onClick({ item, parent, config })"
+            class="ma-0 pa-1"
+          >
+            <span
+              v-html="
+                headerItem.labelFormatter
+                  ? headerItem.labelFormatter({
+                      config,
+                      parent,
+                      item,
+                      headerItem,
+                    })
+                  : headerItem.label
+              "
+            >
+            </span>
+          </v-btn>
+        </div>
 
         <!-- NUMBER -->
         <div
@@ -67,6 +84,20 @@
                 : ''
             }}
           </div>
+        </div>
+
+        <div
+          class="flex-grow-1 justify-center d-flex"
+          v-if="headerItem.type == 'checkbox'"
+        >
+          <v-simple-checkbox
+            :color="headerItem.color || 'accent'"
+            :key="item.key"
+            :disabled="item.isLoading || !isEditable(headerItem)"
+            :value="get(item, headerItem, 'value')"
+            @input="changeInput(item, headerItem, $event)"
+            hide-details
+          ></v-simple-checkbox>
         </div>
 
         <!-- TEXT -->
@@ -114,7 +145,7 @@
         >
           <template v-slot:activator="{ on }">
             <v-btn
-              text
+              outlined
               :ripple="item.edit"
               :class="{ 'has-error': get(item, headerItem, 'hasError') }"
               v-on="on"
@@ -144,52 +175,54 @@
           </v-date-picker>
         </v-menu>
 
-
-
+        <div
+          v-if="headerItem.type == 'select' && headerItem.itemsSelect"
+          class="flex flex-grow-1 py-1"
+          >
         <v-select
           :key="item.key"
-          v-if="headerItem.type == 'select' && headerItem.itemsSelect"
           :items="headerItem.itemsSelect"
           :disabled="!isEditable(headerItem) || item.isLoading"
           :class="{ 'has-error': get(item, headerItem, 'hasError') }"
           @change="changeInput(item, headerItem, $event)"
-          :menu-props="{ closeOnContentClick: !headerItem.selectIsMultiple}"
+          :menu-props="{ closeOnContentClick: !headerItem.selectIsMultiple }"
           :value="get(item, headerItem, 'value')"
           return-object
           hide-details
           single-line
+          outlined
+          dense
           :multiple="headerItem.selectIsMultiple"
           :item-text="headerItem.itemText || 'label'"
           item-color="accent"
           color="accent"
-          >
-
+        >
           <template v-slot:prepend-item>
-            <div v-if="headerItem.nulleable" >
-            <v-list-item
-              ripple
-              @click="changeInput(item, headerItem, null)"
-              >
-              <v-list-item-content>
-                <v-list-item-title>
-                  {{headerItem.itemNulleableText || "No Asignar"}}
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-divider class="mt-2"></v-divider>
+            <div v-if="headerItem.nulleable">
+              <v-list-item ripple @click="changeInput(item, headerItem, null)">
+                <v-list-item-content>
+                  <v-list-item-title>
+                    {{ headerItem.itemNulleableText || 'No Asignar' }}
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-divider class="mt-2"></v-divider>
             </div>
           </template>
 
-
-          <template v-slot:selection="{ item:localItem, index }">
-              <span v-if="index === 0" class="truncate">
-                <span v-if="(get(item, headerItem, 'value') || [] ).length > 1" class="accent--text text-caption">
-                  (+{{ (get(item, headerItem, 'value') || [] ).length - 1 }})
-                </span>
-                {{localItem[headerItem.itemText || 'label'] }}
+          <template v-slot:selection="{ item: localItem, index }">
+            <span v-if="index === 0" class="truncate">
+              <span
+                v-if="(get(item, headerItem, 'value') || []).length > 1"
+                class="accent--text text-caption"
+              >
+                ({{ (get(item, headerItem, 'value') || []).length }})
               </span>
+              {{ localItem[headerItem.itemText || 'label'] }}
+            </span>
           </template>
         </v-select>
+        </div>
 
         <span class="append-cell">
           <slot
@@ -203,10 +236,10 @@
 </template>
 
 <script>
-import dayjs from 'dayjs';
-import _ from 'lodash';
-import utils from "./../../utils/utils.js";
-import MarmotaEventBus from './../Marmota/MarmotaEventBus';
+import dayjs from 'dayjs'
+import _ from 'lodash'
+import utils from './../../utils/utils.js'
+import MarmotaEventBus from './../Marmota/MarmotaEventBus'
 
 export default {
   name: 'MarmotaRow',
@@ -219,7 +252,7 @@ export default {
   },
   computed: {
     isDisabled() {
-      return this.disabled 
+      return this.disabled
     },
     isMobile() {
       return this.$vuetify.breakpoint.smAndDown
@@ -230,7 +263,7 @@ export default {
     set: utils.set,
 
     formatDate(date) {
-      return dayjs(date).format('D MMM, YYYY') 
+      return dayjs(date).format('D MMM, YYYY')
     },
 
     changeInput(item, headerItem, newValue) {
@@ -242,7 +275,7 @@ export default {
         parent: this.parent,
         index: this.index,
       })
-      utils.validateRowItem(item)
+      item.hasError = utils.validateRowItem({ config: this.config, item })
     },
 
     isEditable(headerItem) {
@@ -277,23 +310,15 @@ export default {
       if (this.config.classNameIfZero && parseFloat(num) === 0) {
         className += this.config.classNameIfZero + ' '
       }
+      if(headerItem.className){
+        className += " " + headerItem.className;
+      }
       return className
     },
 
-    getClassInput(item, headerItem){
-      return { 'has-error': utils.get(item, headerItem, 'hasError') };
+    getClassInput(item, headerItem) {
+      return { 'has-error': utils.get(item, headerItem, 'hasError') }
     },
-
-    validateItems() {
-      let hasErrors = false;
-      this.config.data.forEach((item) => {
-        if( utils.validateRowItem(item)){
-          hasErrors = true;
-        }
-      })
-      return hasErrors;
-    },
-
   },
 }
 </script>
