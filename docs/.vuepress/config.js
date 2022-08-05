@@ -5,14 +5,13 @@ module.exports = {
   locales: {
     '/': {
       lang: 'es-Es',
-      title: 'Marmota',
-      description: 'Tabla de datos simple, para vuetify2'
+      title: 'Marmota [Beta] ',
+      description: 'Tabla de datos simple, para vuejs2 y vuetify2'
     }
   },
   themeConfig: {
     repoLabel: 'Contribuye!',
-    // git repo here... gitlab, github
-    repo: '',
+    repo: 'https://github.com/brujo-rojas/marmota',
     docsDir: 'docs',
     editLinks: true,
     docsBranch: 'main',
@@ -33,7 +32,6 @@ module.exports = {
         nav: [
           { text: 'Instalación', link: '/guide' },
           { text: 'Ejemplos', link: '/components/' },
-          // external link to git repo...again
           {
             text: 'GitHub',
             link: 'https://github.com/brujo-rojas/marmota'
@@ -47,6 +45,7 @@ module.exports = {
               children: [
                 'table-basic',
                 'table-example',
+                'TODO',
               ]
             }
           ]
