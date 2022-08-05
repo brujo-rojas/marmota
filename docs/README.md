@@ -1,14 +1,15 @@
 ---
 home: true
 heroImage:
-actionText: Ejemplos →
-actionLink: /components
+actionText: Docs →
+actionLink: /components/table-basic
 features:
-  - title: Feature 1
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-  - title: Feature 2
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-  - title: Feature 3
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-footer: With  by Irricrops 2022
+  - title: Agrupa tus datos
+    details: Agrupa los items hasta en 3 niveles
+  - title: dark theme
+    details: Opcion de modo oscuro por propiedad
+  - title: Responsiva y configurable
+    details: configuraciones mendiante JSON.
+
+footer: by PRojas 2022
 ---
