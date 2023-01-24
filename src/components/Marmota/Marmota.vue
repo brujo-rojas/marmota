@@ -46,6 +46,10 @@
             <slot name="prependItemNav" v-bind="props"></slot>
           </template>
 
+          <template v-slot:inputItemNav="props">
+            <slot name="inputItemNav" v-bind="props"></slot>
+          </template>
+
           <template v-slot:appendItemNav="props">
             <slot name="appendItemNav" v-bind="props"></slot>
           </template>

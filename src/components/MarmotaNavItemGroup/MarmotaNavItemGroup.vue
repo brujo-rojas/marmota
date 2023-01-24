@@ -83,17 +83,18 @@
         </v-tooltip>
 
         <slot name="appendItemNav" v-bind="{ item, config }"></slot>
-
-        <input
-          v-show="item.edit && !inset"
-          :disabled="isDisabledInput"
-          type="text"
-          :class="{ 'has-error': item.hasLabelError}"
-          :key="item.key"
-          class="wide"
-          :value="getLabel(item)"
-          @change="setLabel(item, $event.target.value)"
-        />
+        <slot name="inputItemNav" v-bind="{ item, config, inset, isDisabledInput }">
+          <input
+            v-show="item.edit && !inset"
+            :disabled="isDisabledInput"
+            type="text"
+            :class="{ 'has-error': item.hasLabelError }"
+            :key="item.key"
+            class="wide"
+            :value="getLabel(item)"
+            @change="setLabel(item, $event.target.value)"
+          />
+        </slot>
       </div>
 
       <template v-if="item.insetChildren">
@@ -177,7 +178,12 @@ export default {
       return this.config.nav.subTextLabel || 'subLabel'
     },
     isDisabledInput() {
-      return !this.item.edit || this.disabled || !this.config.nav.editable || this.item.isLoading;
+      return (
+        !this.item.edit ||
+        this.disabled ||
+        !this.config.nav.editable ||
+        this.item.isLoading
+      )
     },
     isDisabled() {
       return this.disabled
@@ -222,12 +228,12 @@ export default {
     },
 
     setLabel(item, newValue) {
-      item.hasLabelError= false;
+      item.hasLabelError = false
 
       this.$set(item, this.textLabel, newValue)
       this.$emit('changeLabel', newValue)
       MarmotaEventBus.$emit('change', { item, index: this.index })
-      utils.validateLabelItem({config: this.config, item})
+      utils.validateLabelItem({ config: this.config, item })
     },
   },
 }
