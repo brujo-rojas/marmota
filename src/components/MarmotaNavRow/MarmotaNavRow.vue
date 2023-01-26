@@ -26,7 +26,7 @@
         <v-btn
           small
           icon
-          :disabled="isDisabled && !navColumn.withLoading"
+          :disabled="isDisabled && !(item.isLoading && navColumn.withLoading)"
           :loading="item.isLoading && navColumn.withLoading"
           v-if="navColumn.type == 'icon-button'"
           @click="
