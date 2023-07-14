@@ -59,9 +59,9 @@
           v-if="headerItem.type == 'number'"
           class="d-flex flex-row align-center flex-grow-1"
         >
-          <div>
+          <div class="prefix">
             {{
-              get(item, headerItem, 'value') != null
+              get(item, headerItem, 'prefix') != null
                 ? get(item, headerItem, 'prefix')
                 : ''
             }}
@@ -77,9 +77,9 @@
             @focus="$event.target.select()"
             :value="get(item, headerItem, 'value')"
           />
-          <div>
+          <div class="suffix">
             {{
-              get(item, headerItem, 'value') != null
+              get(item, headerItem, 'suffix') != null
                 ? get(item, headerItem, 'suffix')
                 : ''
             }}
@@ -105,9 +105,9 @@
           v-if="headerItem.type == 'text'"
           class="d-flex flex-row align-center flex-grow-1"
         >
-          <div>
+          <div class="prefix">
             {{
-              get(item, headerItem, 'value') != null
+              get(item, headerItem, 'prefix') != null
                 ? get(item, headerItem, 'prefix')
                 : ''
             }}
@@ -123,9 +123,9 @@
             @focus="$event.target.select()"
             :value="get(item, headerItem, 'value')"
           />
-          <div>
+          <div class="suffix">
             {{
-              get(item, headerItem, 'value') != null
+              get(item, headerItem, 'suffix') != null
                 ? get(item, headerItem, 'suffix')
                 : ''
             }}
@@ -152,13 +152,13 @@
             >
               <span class="text-capitalize">
                 {{
-                  get(item, headerItem, 'value') != null
+                  get(item, headerItem, 'prefix') != null
                     ? get(item, headerItem, 'prefix')
                     : ''
                 }}
                 {{ formatDate(get(item, headerItem, 'value')) }}
                 {{
-                  get(item, headerItem, 'value') != null
+                  get(item, headerItem, 'suffix') != null
                     ? get(item, headerItem, 'suffix')
                     : ''
                 }}

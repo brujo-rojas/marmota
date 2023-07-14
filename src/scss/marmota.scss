@@ -451,6 +451,14 @@
         color: inherit;
       }
 
+      .prefix{
+        margin-right: 0.5em;
+      }
+
+      .suffix{
+        margin-left: 0.5em;
+      }
+
       .v-select {
         padding-top: 0px;
         .v-select__slot .v-select__selections {

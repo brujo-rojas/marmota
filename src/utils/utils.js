@@ -31,7 +31,6 @@ export default {
   validateRowItem({ config, item }) {
     //TODO min, max
     let hasError = false
-    console.log('validateRowItem')
     config.header.forEach((header) => {
       header.vars.forEach((headerItem) => {
         if (this.validateRowHeaderItem({ config, item, headerItem })) {
@@ -71,35 +70,35 @@ export default {
 
   validateNavItem({ config, item }) {
     //TODO min, max
-    //TODO TESTING-- navRight debe ser un atributo configurable
-    console.log('validateNavItem')
     item.hasError = false
-    config.navRight.vars.forEach((navColumn) => {
-      this.set(navColumn, 'hasError', false)
+    if(config.navRight && config.navRight.vars){
+      config.navRight.vars.forEach((navColumn) => {
+        this.set(navColumn, 'hasError', false)
 
-      if (navColumn.required && !item.vars[navColumn.varName].value) {
-        item.hasError = true
-        this.set(navColumn, 'hasError', true)
-      }
-
-      if (navColumn.beforeTo) {
-        let dateNavItem = dayjs(item.vars[navColumn.varName].value)
-        let dateBeforeTo = dayjs(item.vars[navColumn.beforeTo].value)
-        if (!dateNavItem.isBefore(dateBeforeTo, 'day')) {
+        if (navColumn.required && !item.vars[navColumn.varName].value) {
           item.hasError = true
           this.set(navColumn, 'hasError', true)
         }
-      }
 
-      if (navColumn.afterTo) {
-        let dateNavItem = dayjs(item.vars[navColumn.varName].value)
-        let dateAfterTo = dayjs(item.vars[navColumn.afterTo].value)
-        if (!dateNavItem.isAfter(dateAfterTo, 'day')) {
-          item.hasError = true
-          this.set(navColumn, 'hasError', true)
+        if (navColumn.beforeTo) {
+          let dateNavItem = dayjs(item.vars[navColumn.varName].value)
+          let dateBeforeTo = dayjs(item.vars[navColumn.beforeTo].value)
+          if (!dateNavItem.isBefore(dateBeforeTo, 'day')) {
+            item.hasError = true
+            this.set(navColumn, 'hasError', true)
+          }
         }
-      }
-    })
+
+        if (navColumn.afterTo) {
+          let dateNavItem = dayjs(item.vars[navColumn.varName].value)
+          let dateAfterTo = dayjs(item.vars[navColumn.afterTo].value)
+          if (!dateNavItem.isAfter(dateAfterTo, 'day')) {
+            item.hasError = true
+            this.set(navColumn, 'hasError', true)
+          }
+        }
+      })
+    }
     return item.hasError
   },
 

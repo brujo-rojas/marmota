@@ -276,7 +276,10 @@ export default {
     validateItems() {
       let hasError = false
       this.config.data.forEach((item) => {
-        hasError = this.validateItem(item)
+        hasError = this.validateItem({
+          config: this.config, 
+          item
+        })
       })
       return hasError
     },
