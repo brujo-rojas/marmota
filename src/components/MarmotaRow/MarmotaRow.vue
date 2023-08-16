@@ -73,6 +73,7 @@
             :class="{ 'has-error': get(item, headerItem, 'hasError') }"
             type="number"
             class="wide"
+            :step="headerItem.step || 0.01"
             @input="changeInput(item, headerItem, $event.target.value)"
             @focus="$event.target.select()"
             :value="get(item, headerItem, 'value')"
