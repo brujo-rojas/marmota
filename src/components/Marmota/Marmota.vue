@@ -199,6 +199,10 @@ export default {
       this.prepareCssVariables()
     },
   },
+  
+  mounted() {
+    this.$emit('mounted', this)
+  },
 
   methods: {
     /**
@@ -209,7 +213,6 @@ export default {
     */
     init(initialConfig) {
       if (initialConfig && initialConfig.data) {
-        console.log('init marmota')
         this.config = this.prepareConfig(initialConfig)
 
         this.addEvents()
