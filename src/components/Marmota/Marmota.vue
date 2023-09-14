@@ -25,8 +25,19 @@
         :has-groups="hasGroups"
         :config="config"
       >
+
+        <template v-slot:prependItemHeaderGroup="props">
+          <slot name="prependItemHeaderGroup" v-bind="props"></slot>
+        </template>
         <template v-slot:appendItemHeaderGroup="props">
           <slot name="appendItemHeaderGroup" v-bind="props"></slot>
+        </template>
+
+        <template v-slot:prependItemHeader="props">
+          <slot name="prependItemHeader" v-bind="props"></slot>
+        </template>
+        <template v-slot:appendItemHeader="props">
+          <slot name="appendItemHeader" v-bind="props"></slot>
         </template>
       </marmota-header>
 

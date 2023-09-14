@@ -9,6 +9,11 @@
       :key="index"
     >
       <div class="header-item-group-top" v-show="hasGroups">
+        <slot
+          name="prependItemHeaderGroup"
+          v-bind="{ headerGroup, config }"
+        ></slot>
+
         <v-tooltip
           content-class="v-tooltip--white-big elevation-10"
           top
@@ -35,6 +40,7 @@
             {{ headerGroup.tooltip }}
           </span>
         </v-tooltip>
+
         <slot
           name="appendItemHeaderGroup"
           v-bind="{ headerGroup, config }"
@@ -42,7 +48,7 @@
       </div>
       <div class="header-item-container">
         <div
-          class="header-item truncate"
+          class="header-item"
           :class="[
             headerItem.background,
             headerItem.clickeable ? 'header-item-clickeable' : '',
@@ -52,21 +58,33 @@
           @click="onLabelClick(headerItem)"
           :key="indexHeaderGroup"
         >
+          <slot
+            name="prependItemHeader"
+            v-bind="{ headerGroup, headerItem, config }"
+          ></slot>
+
           <v-tooltip
             content-class="v-tooltip--white-big elevation-10"
             bottom
             open-delay="200"
             :disabled="!headerItem.tooltip"
           >
-          <template v-slot:activator="{ on, attrs }">
-            <span v-bind="attrs" v-on="on" class="d-block">
-              {{ headerItem.label }}
-            </span>
-          </template>
+            <template v-slot:activator="{ on, attrs }">
+              <div class="header-item-title">
+                <span v-bind="attrs" v-on="on">
+                  {{ headerItem.label }}
+                </span>
+              </div>
+            </template>
             <span>
               {{ headerItem.tooltip }}
             </span>
           </v-tooltip>
+
+          <slot
+            name="appendItemHeader"
+            v-bind="{ headerGroup, headerItem, config }"
+          ></slot>
         </div>
       </div>
     </div>
