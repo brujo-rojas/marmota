@@ -110,15 +110,15 @@ export default {
       let headerItem = _.first(headerGroup.vars)
       let style = ''
       if (headerGroup.vars.length == 1 && headerItem.width) {
-        style = `width:     ${headerItem.width + 2}px;
-                  flex:      1 0 ${headerItem.width}px`
+        style = `width: ${headerItem.width + 2}px;
+                  flex: 0 0 ${headerItem.width}px`
         if (
           this.isMobile &&
           headerItem.responsive &&
           headerItem.responsive.width
         ) {
           style = `width: ${headerItem.responsive.width + 2}px;
-                    flex:  1 0 ${headerItem.responsive.width}px`
+                    flex: 0 0 ${headerItem.responsive.width}px`
         }
       }
       return style
@@ -126,9 +126,9 @@ export default {
     getItemStyle(headerItem) {
       let style = ''
       if (headerItem.width) {
-        style = `width:     ${headerItem.width}px;
+        style = `width: ${headerItem.width}px;
                   min-width: ${headerItem.width}px;
-                  flex:      0 0 ${headerItem.width}px`
+                  flex: 0 0 ${headerItem.width}px`
       }
       if (
         this.isMobile &&
@@ -137,7 +137,7 @@ export default {
       ) {
         style = `width: ${headerItem.responsive.width}px;
                   min-width: ${headerItem.responsive.width}px;
-                  flex:  0 0 ${headerItem.responsive.width}px`
+                  flex: 0 0 ${headerItem.responsive.width}px`
       }
       return style
     },
