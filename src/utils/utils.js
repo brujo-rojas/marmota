@@ -104,7 +104,7 @@ export default {
 
   get(item, headerItem, varName = 'value') {
     if (item.vars && headerItem.varName) {
-      return _.get(item.vars, headerItem.varName + '.' + varName) || null;
+      return _.get(item.vars, headerItem.varName + '.' + varName);
     }
     return null
   },

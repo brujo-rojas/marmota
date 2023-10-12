@@ -191,6 +191,14 @@
           }
         }
 
+        &.has-one-column{
+          overflow: hidden;
+          justify-content: start;
+          .header-item-group-title{
+            position: unset;
+            width: stretch;
+          }
+        }
 
       }
     }
@@ -473,7 +481,7 @@
         color: inherit;
       }
 
-      .prefix {
+      .prefix:not(:empty) {
         margin-right: 0.5em;
       }
 
@@ -482,7 +490,7 @@
         text-align: right;
       }
 
-      .suffix {
+      .suffix:not(:empty) {
         margin-left: 0.5em;
       }
 

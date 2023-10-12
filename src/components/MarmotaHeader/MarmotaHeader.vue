@@ -23,6 +23,7 @@
           <template v-slot:activator="{ on, attrs }">
             <div
               class="header-item-group-top-container"
+              :class="{ 'has-one-column': headerGroup.vars.length == 1 }"
               v-bind="attrs"
               v-on="on"
             >
