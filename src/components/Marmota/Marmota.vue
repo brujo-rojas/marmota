@@ -6,18 +6,20 @@
     v-if="config"
   >
     <marmota-corner
-      :config="config"
       v-if="hasCornerLeft"
-      @changeSelection="changeSelection"
-    ></marmota-corner>
-
-    <marmota-corner
-      right
-      disable-selection
-      :has-groups="hasGroups"
-      v-if="hasCornerRight"
       :config="config"
-    ></marmota-corner>
+      @changeSelection="changeSelection"
+    >
+      <template v-slot:appendCornerLeft="props">
+        <slot name="appendCornerLeft" v-bind="props"></slot>
+      </template>
+    </marmota-corner>
+
+    <marmota-corner-right
+      v-if="hasCornerRight"
+      :has-groups="hasGroups"
+      :config="config"
+    ></marmota-corner-right>
 
     <div class="table-container" ref="tableContainer">
       <marmota-header
@@ -25,7 +27,6 @@
         :has-groups="hasGroups"
         :config="config"
       >
-
         <template v-slot:prependItemHeaderGroup="props">
           <slot name="prependItemHeaderGroup" v-bind="props"></slot>
         </template>
@@ -148,12 +149,11 @@
 </template>
 
 <script>
-//import utils from "@/utils/utils";
-import dayjs from 'dayjs'
 import utils from './../../utils/utils.js'
 import _ from 'lodash'
 import MarmotaNavItemGroup from './../MarmotaNavItemGroup'
 import MarmotaCorner from './../MarmotaCorner'
+import MarmotaCornerRight from './../MarmotaCornerRight'
 import MarmotaHeader from './../MarmotaHeader'
 import MarmotaRowGroup from './../MarmotaRowGroup'
 import MarmotaNavRow from './../MarmotaNavRow'
@@ -169,6 +169,7 @@ export default {
   components: {
     MarmotaNavItemGroup,
     MarmotaCorner,
+    MarmotaCornerRight,
     MarmotaHeader,
     MarmotaRowGroup,
     MarmotaNavRow,
@@ -210,7 +211,7 @@ export default {
       this.prepareCssVariables()
     },
   },
-  
+
   mounted() {
     this.$emit('mounted', this)
   },
@@ -291,8 +292,8 @@ export default {
       let hasError = false
       this.config.data.forEach((item) => {
         hasError = this.validateItem({
-          config: this.config, 
-          item
+          config: this.config,
+          item,
         })
       })
       return hasError

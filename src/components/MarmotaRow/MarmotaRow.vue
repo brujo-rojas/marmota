@@ -22,7 +22,13 @@
         <span class="preppend-cell">
           <slot
             name="preppendCell"
-            v-bind="{ item, headerItem, parent, config }"
+            v-bind="{
+              item,
+              headerItem,
+              parent,
+              config,
+              value: get(item, headerItem, 'value'),
+            }"
           ></slot>
         </span>
 
@@ -109,7 +115,13 @@
         <span class="append-cell">
           <slot
             name="appendCell"
-            v-bind="{ item, headerItem, parent, config }"
+            v-bind="{
+              item,
+              headerItem,
+              parent,
+              config,
+              value: get(item, headerItem, 'value'),
+            }"
           ></slot>
         </span>
       </div>
