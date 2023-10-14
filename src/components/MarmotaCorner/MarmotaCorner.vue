@@ -1,6 +1,6 @@
 <template>
   <div class="corner">
-    <div class="corner-item d-flex align-center">
+    <div class="corner-item d-flex align-center flex-grow-1">
       <v-checkbox
         class="ma-0 pa-0"
         color="white"
@@ -23,6 +23,8 @@
         }"
       ></slot>
     </span>
+
+    <div class="aux-inset-children" v-if="hasInset"></div>
   </div>
 </template>
 
@@ -47,6 +49,9 @@ export default {
         this.config.isSelectable !== false &&
         this.config.corner.left.isAllSelectable !== false
       )
+    },
+    hasInset() {
+      return this.config.corner.left.insetMenuPadding || false
     },
   },
   watch: {

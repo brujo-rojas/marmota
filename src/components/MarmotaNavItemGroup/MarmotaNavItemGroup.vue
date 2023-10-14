@@ -55,7 +55,7 @@
         >
         </v-progress-circular>
 
-        <slot name="prependItemNav" v-bind="{ item, config }"></slot>
+        <slot name="prependItemNav" v-bind="{ item, config }" v-if="!isChild"></slot>
 
         <v-tooltip
           content-class="v-tooltip--white-big elevation-10"
@@ -82,8 +82,8 @@
           <span>{{ item.tooltip }}</span>
         </v-tooltip>
 
-        <slot name="appendItemNav" v-bind="{ item, config }"></slot>
-        <slot name="inputItemNav" v-bind="{ item, config, inset, isDisabledInput }">
+        <slot name="appendItemNav" v-bind="{ item, config }" v-if="!isChild"></slot>
+        <slot name="inputItemNav" v-bind="{ item, config, inset, isDisabledInput }" v-if="!isChild">
           <input
             v-show="item.edit && !inset"
             :disabled="isDisabledInput"
