@@ -6,6 +6,7 @@
   --font-size-table: 16px;
   --header_height: 34px;
   --nav_width: 200px;
+  --nav_inset_width: 5rem;
   --nav_right_width: 240px;
   --item_height: 36px;
   --item_height_large: 60px;
@@ -46,6 +47,10 @@
 
       .corner-item {
         line-height: calc(var(--header_height) * 2) !important;
+      }
+      .aux-inset-children {
+        width: var(--nav_inset_width);
+        height: 10px;
       }
     }
 
@@ -302,7 +307,7 @@
 
       &.has-inset-children {
         .nav-item-container {
-          max-width: calc(var(--nav_width) - 4rem);
+          max-width: calc(var(--nav_width) - var(--nav_inset_width));
         }
       }
     }
@@ -344,8 +349,8 @@
       }
 
       .inset-children {
-        flex: 0 1 4rem;
-        max-width: 4rem;
+        flex: 1 1 100%;
+        max-width: var(--nav_inset_width);
         text-align: right;
         margin-bottom: -1px;
 
