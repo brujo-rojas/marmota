@@ -1,6 +1,6 @@
 {
   "name": "marmota",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "private": false,
   "main": "dist/marmota.umd.min.js",
   "unpkg": "dist/marmota.umd.min.js",
