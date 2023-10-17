@@ -9,7 +9,7 @@
     </div>
     <input
       :key="item.key"
-      v-if="isEditable(item, headerItem)"
+      v-if="isEditable(headerItem)"
       :readonly="item.isLoading"
       :class="{ 'has-error': get(item, headerItem, 'hasError') }"
       type="number"
