@@ -1,13 +1,11 @@
 $themes : (
   ''                          : (
-    background                : rgba(245, 245, 245, 1),
-    //grey 100
+    background                : rgba(245, 245, 245, 1), //grey 100
     bgChild                   : rgba(0, 0, 0, 0.04),
     bgGrandchild              : rgba(0, 0, 0, 0.08),
     input_bg                  : rgba(245, 245, 245, 1),
     nav_input_color           : #12161d,
-    nav_input_bg              : rgba(245, 245, 245, 0.8),
-    //grey 100
+    nav_input_bg              : rgba(245, 245, 245, 0.8), //grey 100
     color                     : white,
     tableColor                : #1a1f2a,
     tableEditBackground       : rgba(255, 241, 118, 0.3),
@@ -38,8 +36,7 @@ $themes : (
     tableEditBackgroundDarken : rgba(255, 241, 118, 0.2),
     tableBorderColor          : #1a1f2a,
     insetShadowColor          : rgba(0, 0, 0, 0.3),
-    accent                    : rgba(56, 142, 60, 1),
-    //green 700
+    accent                    : rgba(56, 142, 60, 1), //green 700
     lighten_4                 : #506083,
     lighten_3                 : #485776,
     lighten_2                 : #404e69,
@@ -294,7 +291,7 @@ $themes : (
           input[type='password'],
           input[type='number'] {
             background-color: mapGet($theme, input_bg);
-            border: 1px solid transparentize(mapGet($theme,tableColor), 0.4);
+            border: 1px solid transparentize(mapGet($theme,tableColor), 0.8);
             color: mapGet($theme, tableColor);
 
             &[disabled] {

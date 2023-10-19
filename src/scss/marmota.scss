@@ -102,6 +102,11 @@
       padding-left: 6px;
       line-height: var(--header_height);
     }
+
+    .append-corner-left{
+      display: flex;
+      flex-direction: row;
+    }
   }
 
   .table-container {
@@ -354,8 +359,13 @@
         text-align: right;
         margin-bottom: -1px;
 
-        .nav-item-label {
-          padding-left: 1rem;
+        .nav-item-group{
+          &:last-child .nav-item{
+            border-bottom-color: transparent;
+          }
+          .nav-item-label {
+            padding-left: 1rem;
+          }
         }
       }
 
