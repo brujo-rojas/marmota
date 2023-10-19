@@ -15,7 +15,7 @@
         ></slot>
 
         <v-tooltip
-          content-class="v-tooltip--white-big elevation-10"
+          content-class="v-tooltip--white-big elevation-10 complex-tooltip"
           top
           :disabled="!headerGroup.tooltip"
           open-delay="200"
@@ -37,9 +37,7 @@
               </div>
             </div>
           </template>
-          <span>
-            {{ headerGroup.tooltip }}
-          </span>
+          <div v-html="headerGroup.tooltip"> </div>
         </v-tooltip>
 
         <slot
@@ -77,9 +75,8 @@
                 </span>
               </div>
             </template>
-            <span>
-              {{ headerItem.tooltip }}
-            </span>
+            <div v-html="headerItem.tooltip">
+            </div>
           </v-tooltip>
 
           <slot
