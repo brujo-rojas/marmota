@@ -46,7 +46,7 @@
       height: calc(var(--header_height) * 2) !important;
 
       .corner-item {
-        line-height: calc(var(--header_height) * 2) !important;
+        //line-height: calc(var(--header_height) * 2) !important;
       }
       .aux-inset-children {
         width: var(--nav_inset_width);
@@ -100,7 +100,7 @@
 
     .corner-item {
       padding-left: 6px;
-      line-height: var(--header_height);
+      //line-height: var(--header_height);
     }
 
     .append-corner-left{
