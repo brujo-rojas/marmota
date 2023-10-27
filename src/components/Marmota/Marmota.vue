@@ -53,6 +53,7 @@
           :item="item"
           @changeLabel="changeLabel(item, $event)"
           :key="index"
+          :has-zebra="zebra"
         >
           <template v-slot:prependItemNav="props">
             <slot name="prependItemNav" v-bind="props"></slot>
@@ -117,6 +118,7 @@
           :index="index"
           :config="config"
           :item="item"
+          :has-zebra="zebra"
         >
           <template v-slot:preppendCell="props">
             <slot name="preppendCell" v-bind="props"></slot>
@@ -165,6 +167,7 @@ export default {
   props: {
     disabled: { type: Boolean, default: false },
     isDark: { type: Boolean, default: false },
+    zebra: { type: Boolean, default: false },
   },
   components: {
     MarmotaNavItemGroup,

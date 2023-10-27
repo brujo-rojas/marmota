@@ -5,6 +5,7 @@
       'bottom-fixed': footer,
       'is-inset': inset,
       'has-inset-children': !!item.insetChildren,
+      'nav-item-group-zebra' : hasZebra && !inset
     }"
   >
     <div
@@ -162,6 +163,7 @@ export default {
     inset: { type: Boolean, default: false },
     footer: { type: Boolean, default: false },
     disabled: { type: Boolean, default: false },
+    hasZebra: { type: Boolean, default: false},
   },
   data() {
     return {

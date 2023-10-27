@@ -1,5 +1,5 @@
 <template>
-  <div class="t-row-group" :class="{ 'is-inset': inset }">
+  <div class="t-row-group" :class="{ 'is-inset': inset, 't-row-zebra': hasZebra && !inset }">
     <marmota-row
       v-if="item && !item.insetChildren"
       :item="item"
@@ -74,6 +74,7 @@ export default {
     config: { type: Object, default: null, required: true },
     inset: { type: Boolean, default: false },
     disabled: { type: Boolean, default: false },
+    hasZebra: { type: Boolean, default: false},
   },
   components: {
     MarmotaRow,

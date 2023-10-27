@@ -214,6 +214,9 @@ $themes : (
             background-color: mapGet($theme, tableEditBackgroundDarken);
           }
         }
+        &.nav-item-group-zebra:nth-child(2n) > .nav-item {
+          background-color: mapGet($theme, darken_2);
+        }
       }
 
       .nav-item {
@@ -326,9 +329,17 @@ $themes : (
             }
           }
         }
+
+        &.t-row-zebra:not(.is-inset):nth-child(2n) .t-row{
+          background-color: mapGet($theme,bgChild);
+        }
+
+        &:not(.is-inset) .t-row-group.is-inset:last-child .t-row{
+          border-bottom-width: 2px;
+        }
       }
       .t-col-group {
-        border-right: 2px solid mapGet($theme, tableBorderColor);
+        border-right: 2px solid mapGet($theme, bgGrandchild);
       }
     }
   }
