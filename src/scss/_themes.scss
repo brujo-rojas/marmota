@@ -1,51 +1,54 @@
-$themes : (
-  ''                          : (
-    background                : rgba(245, 245, 245, 1), //grey 100
-    bgChild                   : rgba(0, 0, 0, 0.04),
-    bgGrandchild              : rgba(0, 0, 0, 0.08),
-    input_bg                  : rgba(245, 245, 245, 1),
-    nav_input_color           : #12161d,
-    nav_input_bg              : rgba(245, 245, 245, 0.8), //grey 100
-    color                     : white,
-    tableColor                : #1a1f2a,
-    tableEditBackground       : rgba(255, 241, 118, 0.3),
-    tableEditBackgroundDarken : rgba(255, 241, 118, 0.2),
-    tableBorderColor          : rgba(100, 100, 100, 0.5),
-    insetShadowColor          : rgba(0, 0, 0, 0.3),
-    accent                    : #e76f51,
-    lighten_4                 : #879e95,
-    lighten_3                 : #5e8b7b,
-    lighten_2                 : #367660,
-    lighten_1                 : #1b694e,
-    primary                   : #0b5b40,
-    darken_1                  : #034d34,
-    darken_2                  : #044029,
-    darken_3                  : #00321e,
-    darken_4                  : #001b02,
+$themes: (
+  '': (
+    background: rgba(245, 245, 245, 1),
+    //grey 100
+    bgChild: rgba(0, 0, 0, 0.04),
+    bgGrandchild: rgba(0, 0, 0, 0.08),
+    input_bg: rgba(245, 245, 245, 1),
+    nav_input_color: #12161d,
+    nav_input_bg: rgba(245, 245, 245, 0.8),
+    //grey 100
+    color: white,
+    tableColor: #1a1f2a,
+    tableEditBackground: rgba(255, 241, 118, 0.4),
+    tableEditBackgroundDarken: rgba(255, 241, 118, 0.3),
+    tableBorderColor: rgba(100, 100, 100, 0.5),
+    insetShadowColor: rgba(0, 0, 0, 0.3),
+    accent: #e76f51,
+    lighten_4: #879e95,
+    lighten_3: #5e8b7b,
+    lighten_2: #367660,
+    lighten_1: #1b694e,
+    primary: #0b5b40,
+    darken_1: #034d34,
+    darken_2: #044029,
+    darken_3: #00321e,
+    darken_4: #001b02,
   ),
-  '.dark-theme'               : (
-    background                : #313b50,
-    bgChild                   : #293243,
-    bgGrandchild              : #222837,
-    input_bg                  : #293243,
-    nav_input_color           : white,
-    nav_input_bg              : #313b50,
-    color                     : white,
-    tableColor                : white,
-    tableEditBackground       : rgba(255, 241, 118, 0.1),
-    tableEditBackgroundDarken : rgba(255, 241, 118, 0.2),
-    tableBorderColor          : #1a1f2a,
-    insetShadowColor          : rgba(0, 0, 0, 0.3),
-    accent                    : rgba(56, 142, 60, 1), //green 700
-    lighten_4                 : #506083,
-    lighten_3                 : #485776,
-    lighten_2                 : #404e69,
-    lighten_1                 : #39445d,
-    primary                   : #313b50,
-    darken_1                  : #293243,
-    darken_2                  : #222837,
-    darken_3                  : #1a1f2a,
-    darken_4                  : #12161d,
+  '.dark-theme': (
+    background: #313b50,
+    bgChild: #293243,
+    bgGrandchild: #222837,
+    input_bg: #293243,
+    nav_input_color: white,
+    nav_input_bg: #313b50,
+    color: white,
+    tableColor: white,
+    tableEditBackground: rgba(255, 241, 118, 0.1),
+    tableEditBackgroundDarken: rgba(255, 241, 118, 0.2),
+    tableBorderColor: #1a1f2a,
+    insetShadowColor: rgba(0, 0, 0, 0.3),
+    accent: rgba(56, 142, 60, 1),
+    //green 700
+    lighten_4: #506083,
+    lighten_3: #485776,
+    lighten_2: #404e69,
+    lighten_1: #39445d,
+    primary: #313b50,
+    darken_1: #293243,
+    darken_2: #222837,
+    darken_3: #1a1f2a,
+    darken_4: #12161d,
   ),
 ) !default;
 
@@ -153,7 +156,7 @@ $themes : (
             input[type='password'],
             input[type='number'] {
               color: mapGet($theme, color);
-              background-color: mapGet($theme,lighten_3);
+              background-color: mapGet($theme, lighten_3);
               border: 1px solid mapGet($theme, darken_3);
 
               &[disabled] {
@@ -172,7 +175,7 @@ $themes : (
               &:active,
               &:hover,
               &:focus {
-                background-color: mapGet($theme,lighten_4);
+                background-color: mapGet($theme, lighten_4);
                 border: 1px solid mapGet($theme, darken_4);
               }
             }
@@ -240,12 +243,13 @@ $themes : (
         input[type='password'],
         input[type='number'] {
           color: mapGet($theme, nav_input_color);
-          background-color: mapGet($theme,nav_input_bg);
-          border: 1px solid transparentize(mapGet($theme,color), 0.4);
+          background-color: mapGet($theme, nav_input_bg);
+          border: 1px solid transparentize(mapGet($theme, color), 0.4);
 
           &[disabled] {
             background: transparent !important;
             border-color: transparent !important;
+            color: inherit;
           }
 
           &.full {
@@ -258,8 +262,8 @@ $themes : (
           &:active,
           &:hover,
           &:focus {
-            background-color: mapGet($theme,nav_input_bg);
-            border: 1px solid transparentize(mapGet($theme,color), 0.2);
+            background-color: mapGet($theme, nav_input_bg);
+            border: 1px solid transparentize(mapGet($theme, color), 0.2);
           }
         }
       }
@@ -294,7 +298,7 @@ $themes : (
           input[type='password'],
           input[type='number'] {
             background-color: mapGet($theme, input_bg);
-            border: 1px solid transparentize(mapGet($theme,tableColor), 0.8);
+            border: 1px solid transparentize(mapGet($theme, tableColor), 0.8);
             color: mapGet($theme, tableColor);
 
             &[disabled] {
@@ -313,7 +317,7 @@ $themes : (
             &:hover,
             &:focus {
               background-color: mapGet($theme, input_bg);
-              border: 1px solid transparentize(mapGet($theme,tableColor), 0.2);
+              border: 1px solid transparentize(mapGet($theme, tableColor), 0.2);
             }
           }
         }
@@ -330,11 +334,11 @@ $themes : (
           }
         }
 
-        &.t-row-zebra:not(.is-inset):nth-child(2n) .t-row{
-          background-color: mapGet($theme,bgChild);
+        &.t-row-zebra:not(.is-inset):nth-child(2n) .t-row {
+          background-color: mapGet($theme, bgChild);
         }
 
-        &:not(.is-inset) .t-row-group.is-inset:last-child .t-row{
+        &:not(.is-inset) .t-row-group.is-inset:last-child .t-row {
           border-bottom-width: 2px;
         }
       }
