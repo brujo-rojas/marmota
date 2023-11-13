@@ -82,6 +82,16 @@
         >
         </cell-text>
 
+        <cell-textarea
+          v-if="headerItem.type == 'textarea'"
+          :headerItem="headerItem"
+          :item="item"
+          :parent="parent"
+          :config="config"
+          :isDisabled="isDisabled"
+        >
+        </cell-textarea>
+
         <cell-date
           v-if="headerItem.type == 'date'"
           :headerItem="headerItem"
@@ -137,6 +147,7 @@ import cellNumber from './../MarmotaCells/CellNumber.vue'
 import cellCheckbox from './../MarmotaCells/CellCheckbox.vue'
 import cellPlainText from './../MarmotaCells/CellPlainText.vue'
 import cellText from './../MarmotaCells/CellText.vue'
+import cellTextarea from './../MarmotaCells/CellTextarea.vue'
 import cellDate from './../MarmotaCells/CellDate.vue'
 import cellSelect from './../MarmotaCells/CellSelect.vue'
 import cellAutocomplete from './../MarmotaCells/CellAutocomplete.vue'
@@ -149,6 +160,7 @@ export default {
     cellCheckbox,
     cellPlainText,
     cellText,
+    cellTextarea,
     cellDate,
     cellSelect,
     cellAutocomplete,

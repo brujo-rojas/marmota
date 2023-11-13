@@ -5,6 +5,7 @@ $themes: (
     bgChild: rgba(0, 0, 0, 0.04),
     bgGrandchild: rgba(0, 0, 0, 0.08),
     input_bg: rgba(245, 245, 245, 1),
+    textarea_bg: rgba(255, 241, 118, 0.3),
     nav_input_color: #12161d,
     nav_input_bg: rgba(245, 245, 245, 0.8),
     //grey 100
@@ -30,6 +31,7 @@ $themes: (
     bgChild: #293243,
     bgGrandchild: #222837,
     input_bg: #293243,
+    textarea_bg: rgba(255, 241, 118, 0.1),
     nav_input_color: white,
     nav_input_bg: #313b50,
     color: white,
@@ -298,7 +300,7 @@ $themes: (
           input[type='password'],
           input[type='number'] {
             background-color: mapGet($theme, input_bg);
-            border: 1px solid transparentize(mapGet($theme, tableColor), 0.8);
+            border: 1px solid transparentize(mapGet($theme, tableColor), 0.55);
             color: mapGet($theme, tableColor);
 
             &[disabled] {
@@ -317,6 +319,24 @@ $themes: (
             &:hover,
             &:focus {
               background-color: mapGet($theme, input_bg);
+              border: 1px solid transparentize(mapGet($theme, tableColor), 0.2);
+            }
+          }
+
+          textarea {
+            background-color: mapGet($theme, textarea_bg);
+            border: 1px solid transparentize(mapGet($theme, tableColor), 0.55);
+            color: mapGet($theme, tableColor);
+
+            &[disabled] {
+              color: mapGet($theme, tableColor);
+              background: transparent !important;
+              border-color: transparent !important;
+            }
+
+            &:active,
+            &:hover,
+            &:focus {
               border: 1px solid transparentize(mapGet($theme, tableColor), 0.2);
             }
           }

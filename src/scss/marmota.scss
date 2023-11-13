@@ -537,11 +537,13 @@
         &[type='password'],
         &[type='number'] {
           height: calc(var(--item_height) - 8px);
-          border-radius: 2px;
+          max-height: 32px;
+          border-radius: 3px;
           text-align: right;
           padding-right: 6px;
           width: 100%;
           outline-width: 0px;
+          transition: 0.2s all cubic-bezier(0.25, 0.8, 0.5, 1);
 
           &.mini {
             display: inline;
@@ -555,6 +557,26 @@
             margin-right: -8px;
             height: 100%;
           }
+        }
+      }
+      textarea {
+        height: calc(var(--item_height) - 8px);
+        min-height: calc(var(--item_height) - 8px);
+        line-height: normal;
+        border-radius: 2px;
+        text-align: right;
+        padding-right: 6px;
+        width: 100%;
+        outline-width: 0px;
+        resize: none;
+
+        &::-webkit-scrollbar {
+          width: 6px !important;
+          height: 6px !important;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          border-radius: 3px;
         }
       }
     }
