@@ -315,6 +315,10 @@ export default {
     prepareCssVariables() {
       let navRightWidth = this.getNavRightWidth() + 10
       this.setCssVar('--nav_right_width', navRightWidth + 'px')
+      
+      if(this.config.itemHeight){
+        this.setCssVar('--item_height', this.config.itemHeight + 'px')
+      }
 
       let navWidth = 0
       if (this.config.nav) {
