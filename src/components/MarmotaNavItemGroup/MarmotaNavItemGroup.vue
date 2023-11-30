@@ -56,14 +56,14 @@
         >
         </v-progress-circular>
 
-        <slot name="prependItemNav" v-bind="{ item, config }" v-if="!isChild"></slot>
+        <slot name="prependItemNav" v-bind="{ item, config, isChild }" v-if="!isChild"></slot>
 
         <v-tooltip
           content-class="v-tooltip--white-big elevation-10"
           right
           open-delay="200"
           :disabled="!item.tooltip"
-          v-if="!item.edit || inset"
+          v-if="!item.edit || inset || !config.nav.editable"
         >
           <template v-slot:activator="{ on, attrs }">
             <div
@@ -86,7 +86,7 @@
         <slot name="appendItemNav" v-bind="{ item, config }" v-if="!isChild"></slot>
         <slot name="inputItemNav" v-bind="{ item, config, inset, isDisabledInput }" v-if="!isChild">
           <input
-            v-show="item.edit && !inset"
+            v-show="item.edit && !inset && config.nav.editable"
             :disabled="isDisabledInput"
             type="text"
             :class="{ 'has-error': item.hasLabelError }"
@@ -183,7 +183,7 @@ export default {
       return (
         !this.item.edit ||
         this.disabled ||
-        !this.config.nav.editable ||
+        //!this.config.nav.editable ||
         this.item.isLoading
       )
     },

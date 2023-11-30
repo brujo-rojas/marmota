@@ -16,6 +16,7 @@ $themes: (
     tableBorderColor: rgba(100, 100, 100, 0.5),
     insetShadowColor: rgba(0, 0, 0, 0.3),
     accent: #e76f51,
+    scroll: #879e95,
     lighten_4: #879e95,
     lighten_3: #5e8b7b,
     lighten_2: #367660,
@@ -41,6 +42,7 @@ $themes: (
     tableBorderColor: #1a1f2a,
     insetShadowColor: rgba(0, 0, 0, 0.3),
     accent: rgba(56, 142, 60, 1),
+    scroll: #506083,
     //green 700
     lighten_4: #506083,
     lighten_3: #485776,
@@ -94,8 +96,8 @@ $themes: (
       background-color: mapGet($theme, background);
 
       &::-webkit-scrollbar-thumb {
-        background-color: mapGet($theme, accent);
-        border: solid 1px mapGet($theme, accent);
+        background-color: mapGet($theme, scroll);
+        border: solid 1px mapGet($theme, scroll);
       }
 
       &::-webkit-scrollbar-thumb:hover {
