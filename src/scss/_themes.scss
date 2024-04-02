@@ -365,7 +365,7 @@ $themes: (
         }
       }
       .t-col-group {
-        border-right: 2px solid mapGet($theme, bgGrandchild);
+        border-right: 2px solid mapGet($theme, tableBorderColor);
       }
     }
   }

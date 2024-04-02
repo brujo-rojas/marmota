@@ -6,6 +6,7 @@
       :ref="headerGroup.isToday ? 'marmota-today' : ''"
       v-for="(headerGroup, index) in config.header"
       :class="{ 'has-one-column': headerGroup.vars.length == 1 }"
+      v-show="headerGroup.vars.length > 0"
       :key="index"
     >
       <div class="header-item-group-top" v-show="hasGroups">

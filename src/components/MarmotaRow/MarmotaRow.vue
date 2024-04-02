@@ -10,6 +10,7 @@
     <div
       class="t-col-group"
       v-for="(hg, indexHg) in config.header"
+      v-show="hg.vars.length > 0" 
       :key="indexHg"
     >
       <div
@@ -102,6 +103,16 @@
         >
         </cell-date>
 
+        <cell-time
+          v-if="headerItem.type == 'time'"
+          :headerItem="headerItem"
+          :item="item"
+          :parent="parent"
+          :config="config"
+          :isDisabled="isDisabled"
+        >
+        </cell-time>
+
         <cell-select
           v-if="headerItem.type == 'select' && headerItem.itemsSelect"
           :headerItem="headerItem"
@@ -151,6 +162,7 @@ import cellTextarea from './../MarmotaCells/CellTextarea.vue'
 import cellDate from './../MarmotaCells/CellDate.vue'
 import cellSelect from './../MarmotaCells/CellSelect.vue'
 import cellAutocomplete from './../MarmotaCells/CellAutocomplete.vue'
+import cellTime from './../MarmotaCells/CellTime.vue'
 
 export default {
   name: 'MarmotaRow',
@@ -164,6 +176,7 @@ export default {
     cellDate,
     cellSelect,
     cellAutocomplete,
+    cellTime
   },
   props: {
     index: { type: Number, default: -1 },
