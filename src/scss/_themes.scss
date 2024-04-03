@@ -5,7 +5,8 @@ $themes: (
     bgChild: rgba(0, 0, 0, 0.04),
     bgGrandchild: rgba(0, 0, 0, 0.08),
     input_bg: rgba(245, 245, 245, 1),
-    textarea_bg: rgba(255, 241, 118, 0.3),
+    // textarea_bg: rgba(245, 245, 245, 1),
+    textarea_bg: rgba(255, 253, 233, 0.6),
     nav_input_color: #12161d,
     nav_input_bg: rgba(245, 245, 245, 0.8),
     //grey 100
@@ -243,9 +244,10 @@ $themes: (
           color: mapGet($theme, color);
         }
 
-        input[type='text'],
-        input[type='password'],
-        input[type='number'] {
+        & > input[type='text'],
+        & > input[type='password'],
+        & > input[type='number'],
+        .input-nav-item {
           color: mapGet($theme, nav_input_color);
           background-color: mapGet($theme, nav_input_bg);
           border: 1px solid transparentize(mapGet($theme, color), 0.4);
@@ -268,6 +270,21 @@ $themes: (
           &:focus {
             background-color: mapGet($theme, nav_input_bg);
             border: 1px solid transparentize(mapGet($theme, color), 0.2);
+          }
+        }
+
+        .v-select {
+          color: mapGet($theme, nav_input_color);
+          background-color: mapGet($theme, nav_input_bg);
+          border: 1px solid transparentize(mapGet($theme, color), 0.4);
+          border-radius: 4px;
+          margin: 0;
+          & > .v-input__control > .v-input__slot::after,
+          & > .v-input__control > .v-input__slot::before{
+            border-color: transparentize(mapGet($theme, color), 0.4) !important;
+          }
+          .v-input__append-inner .v-icon svg{
+            color: mapGet($theme, nav_input_color);
           }
         }
       }

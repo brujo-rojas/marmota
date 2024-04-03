@@ -24,6 +24,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isDark: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   methods: {

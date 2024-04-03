@@ -1,7 +1,7 @@
 <template>
   <div class="flex-grow-1 justify-center d-flex">
     <v-simple-checkbox
-      :color="headerItem.color || 'accent'"
+      :color="headerItem.color || isDark ? 'white' : 'accent'"
       :key="item.key"
       :disabled="item.isLoading || !isEditable(headerItem)"
       :value="get(item, headerItem, 'value')"

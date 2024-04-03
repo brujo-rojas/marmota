@@ -7,6 +7,7 @@
       :parent="parent"
       :disabled="disabled"
       :config="config"
+      :isDark="isDark"
     >
       <template v-slot:preppendCell="props">
         <slot name="preppendCell" v-bind="props"></slot>
@@ -28,6 +29,7 @@
         :index="index"
         :parent="item"
         :item="child"
+        :isDark="isDark"
       >
         <template v-slot:preppendCell="props">
           <slot name="preppendCell" v-bind="props"></slot>
@@ -49,6 +51,7 @@
         :index="index"
         :parent="item"
         :item="child"
+        :isDark="isDark"
       >
         <template v-slot:preppendCell="props">
           <slot name="preppendCell" v-bind="props"></slot>
@@ -75,6 +78,7 @@ export default {
     inset: { type: Boolean, default: false },
     disabled: { type: Boolean, default: false },
     hasZebra: { type: Boolean, default: false},
+    isDark: { type: Boolean, default: false },
   },
   components: {
     MarmotaRow,

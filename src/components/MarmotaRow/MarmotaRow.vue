@@ -2,7 +2,7 @@
   <div
     class="t-row"
     :class="{
-      'bg-edit': item.edit && !isDisabled,
+      'bg-edit': hasBgEdit,
       'has-error': item.hasError,
       large: item.isLarge,
     }"
@@ -40,6 +40,7 @@
           :parent="parent"
           :config="config"
           :isDisabled="isDisabled"
+          :isDark="isDark"
         >
         </cell-button>
 
@@ -50,6 +51,7 @@
           :parent="parent"
           :config="config"
           :isDisabled="isDisabled"
+          :isDark="isDark"
         >
         </cell-number>
 
@@ -60,6 +62,7 @@
           :parent="parent"
           :config="config"
           :isDisabled="isDisabled"
+          :isDark="isDark"
         >
         </cell-checkbox>
 
@@ -70,6 +73,7 @@
           :parent="parent"
           :config="config"
           :isDisabled="isDisabled"
+          :isDark="isDark"
         >
         </cell-plain-text>
 
@@ -80,6 +84,7 @@
           :parent="parent"
           :config="config"
           :isDisabled="isDisabled"
+          :isDark="isDark"
         >
         </cell-text>
 
@@ -90,6 +95,7 @@
           :parent="parent"
           :config="config"
           :isDisabled="isDisabled"
+          :isDark="isDark"
         >
         </cell-textarea>
 
@@ -100,6 +106,7 @@
           :parent="parent"
           :config="config"
           :isDisabled="isDisabled"
+          :isDark="isDark"
         >
         </cell-date>
 
@@ -110,6 +117,8 @@
           :parent="parent"
           :config="config"
           :isDisabled="isDisabled"
+          :isDark="isDark"
+
         >
         </cell-time>
 
@@ -120,6 +129,7 @@
           :parent="parent"
           :config="config"
           :isDisabled="isDisabled"
+          :isDark="isDark"
         >
         </cell-select>
 
@@ -130,6 +140,7 @@
           :parent="parent"
           :config="config"
           :isDisabled="isDisabled"
+          :isDark="isDark"
         >
         </cell-autocomplete>
 
@@ -184,6 +195,7 @@ export default {
     parent: { type: Object, default: null },
     config: { type: Object, default: null },
     disabled: { type: Boolean, default: false },
+    isDark: { type: Boolean, default: false },
   },
   computed: {
     isDisabled() {
@@ -191,6 +203,9 @@ export default {
     },
     isMobile() {
       return this.$vuetify.breakpoint.smAndDown
+    },
+    hasBgEdit() {
+      return this.item.edit && !this.isDisabled && !this.config.disableBgEdit
     },
   },
   methods: {

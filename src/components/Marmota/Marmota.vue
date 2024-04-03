@@ -119,6 +119,7 @@
           :config="config"
           :item="item"
           :has-zebra="zebra"
+          :isDark="isDark"
         >
           <template v-slot:preppendCell="props">
             <slot name="preppendCell" v-bind="props"></slot>
@@ -136,6 +137,7 @@
           :config="config"
           v-if="config.footer"
           :item="config.footer"
+          :isDark="isDark"
         >
           <template v-slot:preppendCell="props">
             <slot name="preppendCell" v-bind="props"></slot>

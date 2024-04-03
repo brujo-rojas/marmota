@@ -91,7 +91,7 @@
             type="text"
             :class="{ 'has-error': item.hasLabelError }"
             :key="item.key"
-            class="wide"
+            class="wide input-nav-item"
             :value="getLabel(item)"
             @change="setLabel(item, $event.target.value)"
           />

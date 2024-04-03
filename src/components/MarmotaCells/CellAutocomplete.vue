@@ -15,8 +15,8 @@
       :multiple="headerItem.selectIsMultiple"
       :chips="headerItem.selectIsMultiple"
       :item-text="headerItem.itemText || 'label'"
-      item-color="accent"
-      color="accent"
+      :item-color="isDark ? 'white' : 'accent'"
+      :color="isDark ? 'white' : 'accent'"
     >
       <template v-slot:prepend-item>
         <div v-if="headerItem.nulleable">
