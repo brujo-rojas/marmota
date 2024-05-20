@@ -269,6 +269,7 @@ export default {
         isSelected: false, // define si esta seleccionado o no un item, cambia en ejecucion
         isSelectable: true, // si un item es seleccionable
         hasError: false, // indica si una fila es valida o no, al momento de ser editada
+        isHidden: false, // define si esta oculto o no
       }
 
       //let newItemConfig = utils.mergeObjects(defaultDataConfig, _.cloneDeep(item));
