@@ -8,7 +8,7 @@
         item.isLoading ||
         (headerItem.enabler && !headerItem.enabler({ item, config }))
       "
-      @click="headerItem.onClick({ item, parent, config })"
+      @click="headerItem.onClick({ item, parent, config, event: $event })"
       class="ma-0 pa-1"
     >
       <span

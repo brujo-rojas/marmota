@@ -371,6 +371,7 @@
         }
       }
 
+      input[type='time'],
       input[type='text'],
       input[type='password'],
       input[type='number'] {
@@ -533,6 +534,7 @@
       }
 
       & > div > input {
+        &[type='time'],
         &[type='text'],
         &[type='password'],
         &[type='number'] {

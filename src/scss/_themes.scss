@@ -1,5 +1,6 @@
 $themes: (
   '': (
+    isDark: false,
     background: rgba(245, 245, 245, 1),
     //grey 100
     bgChild: rgba(0, 0, 0, 0.04),
@@ -29,6 +30,7 @@ $themes: (
     darken_4: #001b02,
   ),
   '.dark-theme': (
+    isDark: true,
     background: #313b50,
     bgChild: #293243,
     bgGrandchild: #222837,
@@ -157,6 +159,7 @@ $themes: (
             color: mapGet($theme, color);
             border-right: 1px solid mapGet($theme, darken_3);
 
+            input[type='time'],
             input[type='text'],
             input[type='password'],
             input[type='number'] {
@@ -244,6 +247,7 @@ $themes: (
           color: mapGet($theme, color);
         }
 
+        & > input[type='time'],
         & > input[type='text'],
         & > input[type='password'],
         & > input[type='number'],
@@ -280,10 +284,10 @@ $themes: (
           border-radius: 4px;
           margin: 0;
           & > .v-input__control > .v-input__slot::after,
-          & > .v-input__control > .v-input__slot::before{
+          & > .v-input__control > .v-input__slot::before {
             border-color: transparentize(mapGet($theme, color), 0.4) !important;
           }
-          .v-input__append-inner .v-icon svg{
+          .v-input__append-inner .v-icon svg {
             color: mapGet($theme, nav_input_color);
           }
         }
@@ -315,6 +319,7 @@ $themes: (
           color: mapGet($theme, tableColor);
           border-right: 1px solid mapGet($theme, tableBorderColor);
 
+          input[type='time'],
           input[type='text'],
           input[type='password'],
           input[type='number'] {
@@ -341,7 +346,11 @@ $themes: (
               border: 1px solid transparentize(mapGet($theme, tableColor), 0.2);
             }
           }
-
+          @if (mapGet($theme, isDark) == true) {
+            input[type='time']::-webkit-calendar-picker-indicator {
+              filter: invert(100%);
+            }
+          }
           textarea {
             background-color: mapGet($theme, textarea_bg);
             border: 1px solid transparentize(mapGet($theme, tableColor), 0.55);
