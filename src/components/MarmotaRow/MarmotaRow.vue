@@ -10,11 +10,16 @@
     <div
       class="t-col-group"
       v-for="(hg, indexHg) in config.header"
-      v-show="hg.vars.length > 0" 
+      @click="onClickGroup(hg, $event)"
+      v-show="hg.vars.length > 0"
+      :class="{
+        'is-clickeable': hg.onClick !== undefined,
+      }"
       :key="indexHg"
     >
       <div
         class="t-col"
+        @click="onClickColumn(headerItem, $event)"
         :style="getItemStyle(headerItem)"
         v-for="(headerItem, indexHv) in hg.vars"
         :key="indexHv"
@@ -118,7 +123,6 @@
           :config="config"
           :isDisabled="isDisabled"
           :isDark="isDark"
-
         >
         </cell-time>
 
@@ -187,7 +191,7 @@ export default {
     cellDate,
     cellSelect,
     cellAutocomplete,
-    cellTime
+    cellTime,
   },
   props: {
     index: { type: Number, default: -1 },
@@ -238,7 +242,29 @@ export default {
       if (headerItem.className) {
         className += ' ' + headerItem.className
       }
+      if (headerItem.onClick !== undefined) {
+        className += ' is-clickeable'
+      }
       return className
+    },
+    
+    onClickGroup(headerGroup, event) {
+      if (headerGroup.onClick) {
+        headerGroup.onClick({
+          item: this.item, 
+          headerGroup,
+          event
+       })
+      }
+    },
+    onClickColumn(headerItem, event) {
+      if (headerItem.onClick) {
+        headerItem.onClick({
+          item: this.item, 
+          headerItem,
+          event
+        })
+      }
     },
   },
 }
