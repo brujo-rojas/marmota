@@ -19,7 +19,7 @@
     >
       <div
         class="t-col"
-        @click="onClickColumn(headerItem, $event)"
+        @click="onClickColumn(headerItem, hg, $event)"
         :style="getItemStyle(headerItem)"
         v-for="(headerItem, indexHv) in hg.vars"
         :key="indexHv"
@@ -243,7 +243,7 @@ export default {
         className += ' ' + headerItem.className
       }
       if (headerItem.onClick !== undefined) {
-        className += ' is-clickeable'
+        className += ' is-clickeable';
       }
       return className
     },
@@ -257,11 +257,13 @@ export default {
        })
       }
     },
-    onClickColumn(headerItem, event) {
+    onClickColumn(headerItem, headerItemGroup, event) {
       if (headerItem.onClick) {
         headerItem.onClick({
           item: this.item, 
+          parent: this.parent,
           headerItem,
+          headerItemGroup,
           event
         })
       }

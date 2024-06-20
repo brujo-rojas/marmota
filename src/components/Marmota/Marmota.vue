@@ -5,6 +5,7 @@
     :class="{ 'dark-theme': isDark, 'has-groups': hasGroups }"
     v-if="config"
   >
+    <div class="marmota-backdrop" v-show="loading"></div>
     <marmota-corner
       v-if="hasCornerLeft"
       :config="config"
@@ -170,6 +171,7 @@ export default {
     disabled: { type: Boolean, default: false },
     isDark: { type: Boolean, default: false },
     zebra: { type: Boolean, default: false },
+    loading: { type: Boolean, default: false },
   },
   components: {
     MarmotaNavItemGroup,
@@ -318,8 +320,8 @@ export default {
     prepareCssVariables() {
       let navRightWidth = this.getNavRightWidth() + 10
       this.setCssVar('--nav_right_width', navRightWidth + 'px')
-      
-      if(this.config.itemHeight){
+
+      if (this.config.itemHeight) {
         this.setCssVar('--item_height', this.config.itemHeight + 'px')
       }
 
