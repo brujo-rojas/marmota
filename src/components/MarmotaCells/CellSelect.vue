@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="flex flex-grow-1 py-1"
-  >
+  <div class="flex flex-grow-1 py-1">
     <v-select
       :key="item.key"
       :items="headerItem.itemsSelect"
@@ -43,6 +41,31 @@
           </span>
           {{ localItem[headerItem.itemText || 'label'] }}
         </span>
+      </template>
+
+      <template v-slot:item="{ item: localItem }">
+        <div class="v-list-item__action" v-if="headerItem.selectIsMultiple">
+          <v-simple-checkbox
+            v-if="headerItem.selectIsMultiple"
+            :value="(get(item, headerItem, 'value') || []).includes(localItem)"
+          ></v-simple-checkbox>
+        </div>
+        <div class="v-list-item__content">
+          <div class="v-list-item__title">
+            {{ localItem[headerItem.itemText || 'label'] }}
+          </div>
+        <slot
+          name="preppendSelectItem"
+          v-bind="{
+            item,
+            headerItem,
+            parent,
+            config,
+            value: get(item, headerItem, 'value'),
+            localItem,
+          }"
+        ></slot>
+        </div>
       </template>
     </v-select>
   </div>

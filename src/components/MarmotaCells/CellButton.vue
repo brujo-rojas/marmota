@@ -8,8 +8,17 @@
         item.isLoading ||
         (headerItem.enabler && !headerItem.enabler({ item, config }))
       "
-      @click="headerItem.onClick({ item, parent, config, event: $event })"
+      @click="
+        headerItem.onClick({
+          item,
+          parent,
+          config,
+          event: $event,
+          isEditable: isEditable(headerItem),
+        })
+      "
       class="ma-0 pa-1"
+      :width="headerItem.widthButton"
     >
       <span
         v-html="

@@ -1,5 +1,8 @@
 <template>
-  <div class="t-row-group" :class="{ 'is-inset': inset, 't-row-zebra': hasZebra && !inset }">
+  <div
+    class="t-row-group"
+    :class="{ 'is-inset': inset, 't-row-zebra': hasZebra && !inset }"
+  >
     <marmota-row
       v-if="item && !item.insetChildren"
       :item="item"
@@ -15,6 +18,10 @@
 
       <template v-slot:appendCell="props">
         <slot name="appendCell" v-bind="props"></slot>
+      </template>
+
+      <template v-slot:preppendSelectItem="props">
+        <slot name="preppendSelectItem" v-bind="props"></slot>
       </template>
     </marmota-row>
 
@@ -38,6 +45,10 @@
         <template v-slot:appendCell="props">
           <slot name="appendCell" v-bind="props"></slot>
         </template>
+
+        <template v-slot:preppendSelectItem="props">
+          <slot name="preppendSelectItem" v-bind="props"></slot>
+        </template>
       </marmota-row-group>
     </template>
 
@@ -60,6 +71,10 @@
         <template v-slot:appendCell="props">
           <slot name="appendCell" v-bind="props"></slot>
         </template>
+
+        <template v-slot:preppendSelectItem="props">
+          <slot name="preppendSelectItem" v-bind="props"></slot>
+        </template>
       </marmota-row-group>
     </template>
   </div>
@@ -77,7 +92,7 @@ export default {
     config: { type: Object, default: null, required: true },
     inset: { type: Boolean, default: false },
     disabled: { type: Boolean, default: false },
-    hasZebra: { type: Boolean, default: false},
+    hasZebra: { type: Boolean, default: false },
     isDark: { type: Boolean, default: false },
   },
   components: {

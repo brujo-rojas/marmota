@@ -31,6 +31,7 @@
         <template v-slot:prependItemHeaderGroup="props">
           <slot name="prependItemHeaderGroup" v-bind="props"></slot>
         </template>
+
         <template v-slot:appendItemHeaderGroup="props">
           <slot name="appendItemHeaderGroup" v-bind="props"></slot>
         </template>
@@ -38,6 +39,7 @@
         <template v-slot:prependItemHeader="props">
           <slot name="prependItemHeader" v-bind="props"></slot>
         </template>
+
         <template v-slot:appendItemHeader="props">
           <slot name="appendItemHeader" v-bind="props"></slot>
         </template>
@@ -129,6 +131,10 @@
           <template v-slot:appendCell="props">
             <slot name="appendCell" v-bind="props"></slot>
           </template>
+
+          <template v-slot:preppendSelectItem="props">
+            <slot name="preppendSelectItem" v-bind="props"></slot>
+          </template>
         </marmota-row-group>
 
         <marmota-row-group
@@ -146,6 +152,10 @@
 
           <template v-slot:appendCell="props">
             <slot name="appendCell" v-bind="props"></slot>
+          </template>
+
+          <template v-slot:preppendSelectItem="props">
+            <slot name="preppendSelectItem" v-bind="props"></slot>
           </template>
         </marmota-row-group>
       </div>

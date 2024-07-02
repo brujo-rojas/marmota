@@ -135,6 +135,11 @@
           :isDisabled="isDisabled"
           :isDark="isDark"
         >
+
+        <template v-slot:preppendSelectItem="props">
+          <slot name="preppendSelectItem" v-bind="props"></slot>
+        </template>
+          
         </cell-select>
 
         <cell-autocomplete
@@ -242,29 +247,29 @@ export default {
       if (headerItem.className) {
         className += ' ' + headerItem.className
       }
-      if (headerItem.onClick !== undefined) {
-        className += ' is-clickeable';
+      if (headerItem.onClick !== undefined && headerItem.type !== 'button') {
+        className += ' is-clickeable'
       }
       return className
     },
-    
+
     onClickGroup(headerGroup, event) {
       if (headerGroup.onClick) {
         headerGroup.onClick({
-          item: this.item, 
+          item: this.item,
           headerGroup,
-          event
-       })
+          event,
+        })
       }
     },
     onClickColumn(headerItem, headerItemGroup, event) {
       if (headerItem.onClick) {
         headerItem.onClick({
-          item: this.item, 
+          item: this.item,
           parent: this.parent,
           headerItem,
           headerItemGroup,
-          event
+          event,
         })
       }
     },
