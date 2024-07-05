@@ -135,11 +135,9 @@
           :isDisabled="isDisabled"
           :isDark="isDark"
         >
-
-        <template v-slot:preppendSelectItem="props">
-          <slot name="preppendSelectItem" v-bind="props"></slot>
-        </template>
-          
+          <template v-slot:preppendSelectItem="props">
+            <slot name="preppendSelectItem" v-bind="props"></slot>
+          </template>
         </cell-select>
 
         <cell-autocomplete
@@ -241,12 +239,29 @@ export default {
     getClassItem(item, headerItem) {
       let num = utils.get(item, headerItem, 'value')
       let className = ''
+
       if (this.config.classNameIfZero && parseFloat(num) === 0) {
         className += this.config.classNameIfZero + ' '
       }
-      if (headerItem.className) {
-        className += ' ' + headerItem.className
+
+      if (item.classNameIfZero && parseFloat(num) === 0) {
+        className += item.classNameIfZero + ' '
       }
+
+      if (headerItem.className) {
+        className += headerItem.className + ' '
+      }
+
+      if (headerItem.classNameVarName) {
+        let classNameValue =
+          utils.get(item, headerItem, headerItem.classNameVarName) || ''
+        className += classNameValue + ' '
+      }
+
+      if (item.className) {
+        className += item.className + ' '
+      }
+
       if (headerItem.onClick !== undefined && headerItem.type !== 'button') {
         className += ' is-clickeable'
       }
