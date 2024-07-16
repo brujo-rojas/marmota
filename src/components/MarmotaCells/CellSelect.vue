@@ -6,7 +6,11 @@
       :disabled="!isEditable(headerItem) || item.isLoading"
       :class="{ 'has-error': get(item, headerItem, 'hasError') }"
       @input="changeInput(item, headerItem, $event)"
-      :menu-props="{ closeOnContentClick: !headerItem.selectIsMultiple }"
+      :menu-props="{
+        closeOnContentClick: !headerItem.selectIsMultiple,
+        offsetY: true,
+        transition: 'slide-y-transition',
+      }"
       :value="get(item, headerItem, 'value')"
       return-object
       hide-details
@@ -54,17 +58,17 @@
           <div class="v-list-item__title">
             {{ localItem[headerItem.itemText || 'label'] }}
           </div>
-        <slot
-          name="preppendSelectItem"
-          v-bind="{
-            item,
-            headerItem,
-            parent,
-            config,
-            value: get(item, headerItem, 'value'),
-            localItem,
-          }"
-        ></slot>
+          <slot
+            name="preppendSelectItem"
+            v-bind="{
+              item,
+              headerItem,
+              parent,
+              config,
+              value: get(item, headerItem, 'value'),
+              localItem,
+            }"
+          ></slot>
         </div>
       </template>
     </v-select>

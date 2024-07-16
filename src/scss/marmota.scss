@@ -527,8 +527,11 @@
       }
 
       .v-select {
-        padding-top: 0px;
+        &.v-text-field--solo{
+          margin-top: 8px; //patch, para casos de autocomplete solo-inverted
+        }
 
+        .v-select__slot > input,
         .v-select__slot .v-select__selections {
           color: currentColor;
         }
@@ -538,10 +541,14 @@
         }
 
         .v-input__control .v-input__slot {
-          height: auto;
-          min-height: auto;
+          height: calc(var(--item_height) - 8px);
+          min-height: calc(var(--item_height) - 8px);
+        }
+        .v-input__append-inner{
+          margin-top: 3px !important;
         }
       }
+      
 
       & > div > input {
         &[type='time'],

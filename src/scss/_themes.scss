@@ -159,32 +159,34 @@ $themes: (
             color: mapGet($theme, color);
             border-right: 1px solid mapGet($theme, darken_3);
 
-            input[type='time'],
-            input[type='text'],
-            input[type='password'],
-            input[type='number'] {
-              color: mapGet($theme, color);
-              background-color: mapGet($theme, lighten_3);
-              border: 1px solid mapGet($theme, darken_3);
+            & > div > {
+              input[type='time'],
+              input[type='text'],
+              input[type='password'],
+              input[type='number'] {
+                color: mapGet($theme, color);
+                background-color: mapGet($theme, lighten_3);
+                border: 1px solid mapGet($theme, darken_3);
 
-              &[disabled] {
-                background: transparent !important;
-                border-color: transparent !important;
-                color: unset !important;
-              }
-
-              &.full {
-                &:focus {
-                  border: 1px solid mapGet($theme, darken_4);
-                  box-shadow: inset 0px 0px 3px mapGet($theme, darken_4);
+                &[disabled] {
+                  background: transparent !important;
+                  border-color: transparent !important;
+                  color: unset !important;
                 }
-              }
 
-              &:active,
-              &:hover,
-              &:focus {
-                background-color: mapGet($theme, lighten_4);
-                border: 1px solid mapGet($theme, darken_4);
+                &.full {
+                  &:focus {
+                    border: 1px solid mapGet($theme, darken_4);
+                    box-shadow: inset 0px 0px 3px mapGet($theme, darken_4);
+                  }
+                }
+
+                &:active,
+                &:hover,
+                &:focus {
+                  background-color: mapGet($theme, lighten_4);
+                  border: 1px solid mapGet($theme, darken_4);
+                }
               }
             }
           }
@@ -319,33 +321,40 @@ $themes: (
           color: mapGet($theme, tableColor);
           border-right: 1px solid mapGet($theme, tableBorderColor);
 
-          input[type='time'],
-          input[type='text'],
-          input[type='password'],
-          input[type='number'] {
-            background-color: mapGet($theme, input_bg);
-            border: 1px solid transparentize(mapGet($theme, tableColor), 0.55);
-            color: mapGet($theme, tableColor);
-
-            &[disabled] {
+          & > div > {
+            input[type='time'],
+            input[type='text'],
+            input[type='password'],
+            input[type='number'] {
+              background-color: mapGet($theme, input_bg);
+              border: 1px
+                solid
+                transparentize(mapGet($theme, tableColor), 0.55);
               color: mapGet($theme, tableColor);
-              background: transparent !important;
-              border-color: transparent !important;
-            }
 
-            &.full {
+              &[disabled] {
+                color: mapGet($theme, tableColor);
+                background: transparent !important;
+                border-color: transparent !important;
+              }
+
+              &.full {
+                &:focus {
+                  border: 1px solid mapGet($theme, darken_3);
+                  box-shadow: inset 0px 0px 3px mapGet($theme, darken_3);
+                }
+              }
+              &:active,
+              &:hover,
               &:focus {
-                border: 1px solid mapGet($theme, darken_3);
-                box-shadow: inset 0px 0px 3px mapGet($theme, darken_3);
+                background-color: mapGet($theme, input_bg);
+                border: 1px
+                  solid
+                  transparentize(mapGet($theme, tableColor), 0.2);
               }
             }
-            &:active,
-            &:hover,
-            &:focus {
-              background-color: mapGet($theme, input_bg);
-              border: 1px solid transparentize(mapGet($theme, tableColor), 0.2);
-            }
           }
+
           @if (mapGet($theme, isDark) == true) {
             input[type='time']::-webkit-calendar-picker-indicator {
               filter: invert(100%);

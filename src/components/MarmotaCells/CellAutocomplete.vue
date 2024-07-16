@@ -10,10 +10,10 @@
       return-object
       hide-details
       single-line
-      outlined
+      :solo-inverted="isDark && isEditable(headerItem) || item.isLoading"
+      :solo="!isDark && isEditable(headerItem) || item.isLoading"
+      :outlined="!isEditable(headerItem) || item.isLoading"
       dense
-      :multiple="headerItem.selectIsMultiple"
-      :chips="headerItem.selectIsMultiple"
       :item-text="headerItem.itemText || 'label'"
       :item-color="isDark ? 'white' : 'accent'"
       :color="isDark ? 'white' : 'accent'"
@@ -29,18 +29,6 @@
           </v-list-item>
           <v-divider class="mt-2"></v-divider>
         </div>
-      </template>
-
-      <template v-slot:selection="{ item: localItem, index }">
-        <span v-if="index === 0" class="truncate">
-          <span
-            v-if="(get(item, headerItem, 'value') || []).length > 1"
-            class="accent--text text-caption"
-          >
-            ({{ (get(item, headerItem, 'value') || []).length }})
-          </span>
-          {{ localItem[headerItem.itemText || 'label'] }}
-        </span>
       </template>
     </v-autocomplete>
   </div>
