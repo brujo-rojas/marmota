@@ -6,7 +6,7 @@
   --font-size-table: 16px;
   --header_height: 34px;
   --nav_width: 200px;
-  --nav_inset_width: 5rem;
+  --nav_inset_width: 7rem;
   --nav_right_width: 240px;
   --item_height: 36px;
   --item_height_large: 60px;
@@ -273,6 +273,19 @@
         &.header-item--sublabel {
           font-size: 0.75em;
         }
+      }
+    }
+    .sort-button:not(.sort-button--active) {
+      opacity: 0;
+      transition: opacity 0.2s;
+      transition-delay: 0.2s;
+    }
+    .sort-button.sort-button--active {
+      opacity: 0.5;
+    }
+    &:hover {
+      .sort-button {
+        opacity: 1;
       }
     }
   }

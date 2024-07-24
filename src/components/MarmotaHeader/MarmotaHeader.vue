@@ -38,7 +38,7 @@
               </div>
             </div>
           </template>
-          <div v-html="headerGroup.tooltip"> </div>
+          <div v-html="headerGroup.tooltip"></div>
         </v-tooltip>
 
         <slot
@@ -76,14 +76,35 @@
                 </span>
               </div>
             </template>
-            <div v-html="headerItem.tooltip">
-            </div>
+            <div v-html="headerItem.tooltip"></div>
           </v-tooltip>
 
           <slot
             name="appendItemHeader"
             v-bind="{ headerGroup, headerItem, config }"
           ></slot>
+
+          <slot
+            name="appendButtonsItemHeader"
+            v-bind="{ headerGroup, headerItem, config, sortBy }"
+          >
+            <v-btn
+              v-if="headerItem.sortable !== false && config.sortable !== false"
+              class="sort-button"
+              icon
+              dark
+              small
+              @click="sortBy({ headerItem })"
+              :outlined="headerItemToSort === headerItem"
+              :class="{
+                'sort-button--active': headerItemToSort === headerItem,
+              }"
+            >
+              <v-icon>
+                {{ getSortIcon({ headerItem }) }}
+              </v-icon>
+            </v-btn>
+          </slot>
         </div>
       </div>
     </div>
@@ -91,6 +112,14 @@
 </template>
 
 <script>
+import {
+  mdiSortAlphabeticalAscendingVariant,
+  mdiSortAlphabeticalDescendingVariant,
+  mdiSortAlphabeticalVariant,
+  mdiSortNumericAscendingVariant,
+  mdiSortNumericDescendingVariant,
+  mdiSortNumericVariant,
+} from '@mdi/js'
 import MarmotaEventBus from './../Marmota/MarmotaEventBus'
 import _ from 'lodash'
 export default {
@@ -98,6 +127,20 @@ export default {
   props: {
     config: { type: Object, default: null },
     hasGroups: { type: Boolean, default: false },
+    headerItemToSort: { type: Object, default: null },
+    isSortAsc: { type: Boolean, default: true },
+  },
+  data() {
+    return {
+      icons: {
+        sortAsc: mdiSortAlphabeticalAscendingVariant,
+        sortDesc: mdiSortAlphabeticalDescendingVariant,
+        sortDefault: mdiSortAlphabeticalVariant,
+        sortNumberAsc: mdiSortNumericAscendingVariant,
+        sortNumberDesc: mdiSortNumericDescendingVariant,
+        sortNumberDefault: mdiSortNumericVariant,
+      },
+    }
   },
   computed: {
     isMobile() {
@@ -142,6 +185,30 @@ export default {
     },
     onLabelClick(headerItem) {
       MarmotaEventBus.$emit('clickHeaderLabel', {
+        headerItem,
+      })
+    },
+    getSortIcon({ headerItem }) {
+      let iconAsc = this.icons.sortAsc
+      let iconDesc = this.icons.sortDesc
+      let iconDefault = this.icons.sortDefault
+      if (
+        headerItem.type === 'number' ||
+        headerItem.type === 'date' ||
+        headerItem.typeIconSort === 'number'
+      ) {
+        iconAsc = this.icons.sortNumberAsc
+        iconDesc = this.icons.sortNumberDesc
+        iconDefault = this.icons.sortNumberDefault
+      }
+
+      if (this.headerItemToSort === headerItem) {
+        return this.isSortAsc ? iconAsc : iconDesc
+      }
+      return iconDefault
+    },
+    sortBy({ headerItem }) {
+      MarmotaEventBus.$emit('sortBy', {
         headerItem,
       })
     },

@@ -27,6 +27,8 @@
         ref="marmotaHeader"
         :has-groups="hasGroups"
         :config="config"
+        :header-item-to-sort="headerItemToSort"
+        :is-sort-asc="isSortAsc"
       >
         <template v-slot:prependItemHeaderGroup="props">
           <slot name="prependItemHeaderGroup" v-bind="props"></slot>
@@ -174,6 +176,7 @@ import MarmotaRowGroup from './../MarmotaRowGroup'
 import MarmotaNavRow from './../MarmotaNavRow'
 import MarmotaNavRowGroup from './../MarmotaNavRowGroup'
 import MarmotaEventBus from './MarmotaEventBus'
+import dayjs from 'dayjs'
 
 export default {
   name: 'Marmota',
@@ -196,6 +199,8 @@ export default {
     return {
       config: null,
       isAllSelected: false,
+      headerItemToSort: null,
+      isSortAsc: true,
     }
   },
   computed: {
@@ -243,6 +248,7 @@ export default {
     init(initialConfig) {
       if (initialConfig && initialConfig.data) {
         this.config = this.prepareConfig(initialConfig)
+        this.prepareSort()
 
         this.addEvents()
         this.$nextTick(() => {
@@ -266,6 +272,76 @@ export default {
         return this.prepareItemDataConfig(item)
       })
       return newConfig
+    },
+
+    prepareSort() {
+      this.headerItemToSort = this.config.header.find(
+        (headerItem) => headerItem.sortable !== false
+      )
+      this.isSortAsc = true
+      this.sortBy({ headerItem: this.headerItemToSort })
+    },
+
+    sortBy({ headerItem }) {
+      if (this.headerItemToSort === headerItem) {
+        this.isSortAsc = !this.isSortAsc
+      } else {
+        this.headerItemToSort = headerItem
+        this.isSortAsc = false
+      }
+      this.sortData(this.config.data, headerItem, this.isSortAsc)
+    },
+
+    sortData(data, headerItem, isSortAsc) {
+      const sortChildren = data.some((item) => item.children)
+      if (sortChildren) {
+        for (let i = 0; i < data.length; i++) {
+          const item = data[i]
+          if (item.children) {
+            item.children.sort((a, b) =>
+              this.sortFn(a, b, { headerItem, isSortAsc })
+            )
+          }
+        }
+      } else {
+        data.sort((a, b) => this.sortFn(a, b, { headerItem, isSortAsc }))
+      }
+    },
+
+    sortFn(a, b, { headerItem, isSortAsc }) {
+      let aValue = utils.get(a, headerItem, 'value')
+      let bValue = utils.get(b, headerItem, 'value')
+
+      if (headerItem.type === 'select' || headerItem.type === 'autocomplete') {
+        let itemText = headerItem.itemText || 'label'
+        aValue = aValue ? aValue[itemText].trim().toLowerCase() : null
+        bValue = bValue ? bValue[itemText].trim().toLowerCase() : null
+        a
+      }
+
+      if (headerItem.type === 'date') {
+        aValue = aValue ? dayjs(aValue).unix() : null
+        bValue = bValue ? dayjs(bValue).unix() : null
+      }
+
+      if (aValue === bValue) {
+        return 0
+      }
+
+      if (aValue === null || aValue === undefined || aValue === '') {
+        return isSortAsc ? -1 : 1
+      }
+      if (bValue === null || bValue === undefined || bValue === '') {
+        return isSortAsc ? 1 : -1
+      }
+
+      if (aValue < bValue) {
+        return isSortAsc ? -1 : 1
+      }
+      if (aValue > bValue) {
+        return isSortAsc ? 1 : -1
+      }
+      return 0
     },
 
     prepareItemDataConfig(item) {
@@ -325,6 +401,9 @@ export default {
       MarmotaEventBus.$on('clickHeaderLabel', (payload) =>
         this.$emit('clickHeaderLabel', payload)
       )
+      MarmotaEventBus.$on('sortBy', (payload) => {
+        this.sortBy(payload)
+      })
     },
 
     prepareCssVariables() {
