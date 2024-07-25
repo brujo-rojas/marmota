@@ -38,7 +38,7 @@ export default {
         !this.isDisabled &&
         headerItem.editable !== false &&
         this.item.editable !== false &&
-        (this.item.edit || headerItem.editable)
+        (!!this.item.edit || !!headerItem.editable)
       )
     },
 

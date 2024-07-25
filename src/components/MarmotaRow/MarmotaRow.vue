@@ -278,7 +278,7 @@ export default {
       }
     },
     onClickColumn(headerItem, headerItemGroup, event) {
-      if (headerItem.onClick) {
+      if (headerItem.onClick && headerItem.type !== 'button') {
         headerItem.onClick({
           item: this.item,
           parent: this.parent,
