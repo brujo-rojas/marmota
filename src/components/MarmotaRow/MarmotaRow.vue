@@ -38,6 +38,18 @@
           ></slot>
         </span>
 
+        <v-slot
+          name="customCell"
+          v-bind="{
+            item,
+            headerItem,
+            parent,
+            config,
+            value: get(item, headerItem, 'value'),
+            isDisabled,
+          }"
+        ></v-slot>
+
         <cell-button
           v-if="headerItem.type == 'button'"
           :headerItem="headerItem"
