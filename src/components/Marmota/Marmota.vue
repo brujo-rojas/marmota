@@ -137,6 +137,10 @@
           <template v-slot:preppendSelectItem="props">
             <slot name="preppendSelectItem" v-bind="props"></slot>
           </template>
+
+          <template v-slot:customCell="props">
+            <slot name="customCell" v-bind="props"></slot>
+          </template>
         </marmota-row-group>
 
         <marmota-row-group
@@ -159,6 +163,11 @@
           <template v-slot:preppendSelectItem="props">
             <slot name="preppendSelectItem" v-bind="props"></slot>
           </template>
+
+          <template v-slot:customCell="props">
+            <slot name="customCell" v-bind="props"></slot>
+          </template>
+
         </marmota-row-group>
       </div>
     </div>

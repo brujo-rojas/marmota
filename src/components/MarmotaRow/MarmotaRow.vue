@@ -38,7 +38,7 @@
           ></slot>
         </span>
 
-        <v-slot
+        <slot
           name="customCell"
           v-bind="{
             item,
@@ -46,9 +46,11 @@
             parent,
             config,
             value: get(item, headerItem, 'value'),
+            get,
+            set,
             isDisabled,
           }"
-        ></v-slot>
+        ></slot>
 
         <cell-button
           v-if="headerItem.type == 'button'"

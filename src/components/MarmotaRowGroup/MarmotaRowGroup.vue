@@ -23,6 +23,10 @@
       <template v-slot:preppendSelectItem="props">
         <slot name="preppendSelectItem" v-bind="props"></slot>
       </template>
+
+      <template v-slot:customCell="props">
+        <slot name="customCell" v-bind="props"></slot>
+      </template>
     </marmota-row>
 
     <template v-if="item && item.insetChildren">
@@ -49,6 +53,10 @@
         <template v-slot:preppendSelectItem="props">
           <slot name="preppendSelectItem" v-bind="props"></slot>
         </template>
+
+        <template v-slot:customCell="props">
+          <slot name="customCell" v-bind="props"></slot>
+        </template>
       </marmota-row-group>
     </template>
 
@@ -74,6 +82,10 @@
 
         <template v-slot:preppendSelectItem="props">
           <slot name="preppendSelectItem" v-bind="props"></slot>
+        </template>
+
+        <template v-slot:customCell="props">
+          <slot name="customCell" v-bind="props"></slot>
         </template>
       </marmota-row-group>
     </template>
