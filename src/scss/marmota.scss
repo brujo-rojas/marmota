@@ -41,7 +41,7 @@
     box-sizing: border-box;
   }
 
-  .marmota-backdrop{
+  .marmota-backdrop {
     position: absolute;
     top: 0;
     left: 0;
@@ -105,6 +105,9 @@
       left: calc(100% - var(--nav_right_width) - 12px);
       border-right: unset;
       text-align: center;
+      @-moz-document url-prefix() {
+        left: calc(100% - var(--nav_right_width) - 17px);
+      }
     }
 
     .corner-item {
@@ -442,13 +445,26 @@
     }
   }
 
+  .t-row-group {
+    height: var(--item_height);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+
+    min-width: fit-content;
+    max-width: fit-content;
+  }
+
   .t-row {
     height: var(--item_height);
     display: flex;
-    min-width: fit-content;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: flex-start;
+
+    min-width: fit-content;
+    max-width: fit-content;
 
     &.large {
       height: var(--item_height_large);
@@ -474,6 +490,25 @@
       flex-direction: row;
       flex-wrap: nowrap;
       justify-content: flex-start;
+
+      .t-col-group-container {
+        flex: 1 1 auto;
+        width: fit-content;
+        min-width: fit-content;
+        max-width: fit-content;
+
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        height: var(--item_height);
+      }
+
+      &.is-hidden-group {
+        .t-col-group-container {
+          display: none;
+        }
+      }
 
       .large-text {
         line-height: var(--item_height_large);
@@ -528,6 +563,7 @@
 
       .prefix:not(:empty) {
         margin-right: 0.5em;
+        text-wrap: nowrap;
       }
 
       .plain-text {
@@ -537,10 +573,11 @@
 
       .suffix:not(:empty) {
         margin-left: 0.5em;
+        text-wrap: nowrap;
       }
 
       .v-select {
-        &.v-text-field--solo{
+        &.v-text-field--solo {
           margin-top: 8px; //patch, para casos de autocomplete solo-inverted
         }
 
@@ -557,11 +594,10 @@
           height: calc(var(--item_height) - 8px);
           min-height: calc(var(--item_height) - 8px);
         }
-        .v-input__append-inner{
+        .v-input__append-inner {
           margin-top: 3px !important;
         }
       }
-      
 
       & > div > input {
         &[type='time'],
@@ -596,11 +632,11 @@
         min-height: calc(var(--item_height) - 8px);
         line-height: normal;
         border-radius: 2px;
-        text-align: right;
         padding-right: 6px;
         width: 100%;
         outline-width: 0px;
         resize: none;
+        padding: 0.2rem 0.5rem;
 
         &::-webkit-scrollbar {
           width: 6px !important;

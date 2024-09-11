@@ -8,175 +8,178 @@
     }"
   >
     <div
-      class="t-col-group"
+      class="t-col-group is-hidden-group"
       v-for="(hg, indexHg) in config.header"
       @click="onClickGroup(hg, $event)"
+      :style="getColGroupStyle(hg)"
       v-show="hg.vars.length > 0"
       :class="{
         'is-clickeable': hg.onClick !== undefined,
       }"
       :key="indexHg"
     >
-      <div
-        class="t-col"
-        @click="onClickColumn(headerItem, hg, $event)"
-        :style="getItemStyle(headerItem)"
-        v-for="(headerItem, indexHv) in hg.vars"
-        :key="indexHv"
-        :class="[headerItem.background, getClassItem(item, headerItem)]"
-      >
-        <span class="preppend-cell">
+      <div class="t-col-group-container">
+        <div
+          class="t-col"
+          @click="onClickColumn(headerItem, hg, $event)"
+          :style="getItemStyle(headerItem)"
+          v-for="(headerItem, indexHv) in hg.vars"
+          :key="indexHv"
+          :class="[headerItem.background, getClassItem(item, headerItem)]"
+        >
+          <span class="preppend-cell">
+            <slot
+              name="preppendCell"
+              v-bind="{
+                item,
+                headerItem,
+                parent,
+                config,
+                value: get(item, headerItem, 'value'),
+              }"
+            ></slot>
+          </span>
+
           <slot
-            name="preppendCell"
+            name="customCell"
             v-bind="{
               item,
               headerItem,
               parent,
               config,
               value: get(item, headerItem, 'value'),
+              get,
+              set,
+              isDisabled,
             }"
           ></slot>
-        </span>
 
-        <slot
-          name="customCell"
-          v-bind="{
-            item,
-            headerItem,
-            parent,
-            config,
-            value: get(item, headerItem, 'value'),
-            get,
-            set,
-            isDisabled,
-          }"
-        ></slot>
+          <cell-button
+            v-if="headerItem.type == 'button'"
+            :headerItem="headerItem"
+            :item="item"
+            :parent="parent"
+            :config="config"
+            :isDisabled="isDisabled"
+            :isDark="isDark"
+          >
+          </cell-button>
 
-        <cell-button
-          v-if="headerItem.type == 'button'"
-          :headerItem="headerItem"
-          :item="item"
-          :parent="parent"
-          :config="config"
-          :isDisabled="isDisabled"
-          :isDark="isDark"
-        >
-        </cell-button>
+          <cell-number
+            v-if="headerItem.type == 'number'"
+            :headerItem="headerItem"
+            :item="item"
+            :parent="parent"
+            :config="config"
+            :isDisabled="isDisabled"
+            :isDark="isDark"
+          >
+          </cell-number>
 
-        <cell-number
-          v-if="headerItem.type == 'number'"
-          :headerItem="headerItem"
-          :item="item"
-          :parent="parent"
-          :config="config"
-          :isDisabled="isDisabled"
-          :isDark="isDark"
-        >
-        </cell-number>
+          <cell-checkbox
+            v-if="headerItem.type == 'checkbox'"
+            :headerItem="headerItem"
+            :item="item"
+            :parent="parent"
+            :config="config"
+            :isDisabled="isDisabled"
+            :isDark="isDark"
+          >
+          </cell-checkbox>
 
-        <cell-checkbox
-          v-if="headerItem.type == 'checkbox'"
-          :headerItem="headerItem"
-          :item="item"
-          :parent="parent"
-          :config="config"
-          :isDisabled="isDisabled"
-          :isDark="isDark"
-        >
-        </cell-checkbox>
+          <cell-plain-text
+            v-if="headerItem.type == 'plain-text'"
+            :headerItem="headerItem"
+            :item="item"
+            :parent="parent"
+            :config="config"
+            :isDisabled="isDisabled"
+            :isDark="isDark"
+          >
+          </cell-plain-text>
 
-        <cell-plain-text
-          v-if="headerItem.type == 'plain-text'"
-          :headerItem="headerItem"
-          :item="item"
-          :parent="parent"
-          :config="config"
-          :isDisabled="isDisabled"
-          :isDark="isDark"
-        >
-        </cell-plain-text>
+          <cell-text
+            v-if="headerItem.type == 'text'"
+            :headerItem="headerItem"
+            :item="item"
+            :parent="parent"
+            :config="config"
+            :isDisabled="isDisabled"
+            :isDark="isDark"
+          >
+          </cell-text>
 
-        <cell-text
-          v-if="headerItem.type == 'text'"
-          :headerItem="headerItem"
-          :item="item"
-          :parent="parent"
-          :config="config"
-          :isDisabled="isDisabled"
-          :isDark="isDark"
-        >
-        </cell-text>
+          <cell-textarea
+            v-if="headerItem.type == 'textarea'"
+            :headerItem="headerItem"
+            :item="item"
+            :parent="parent"
+            :config="config"
+            :isDisabled="isDisabled"
+            :isDark="isDark"
+          >
+          </cell-textarea>
 
-        <cell-textarea
-          v-if="headerItem.type == 'textarea'"
-          :headerItem="headerItem"
-          :item="item"
-          :parent="parent"
-          :config="config"
-          :isDisabled="isDisabled"
-          :isDark="isDark"
-        >
-        </cell-textarea>
+          <cell-date
+            v-if="headerItem.type == 'date'"
+            :headerItem="headerItem"
+            :item="item"
+            :parent="parent"
+            :config="config"
+            :isDisabled="isDisabled"
+            :isDark="isDark"
+          >
+          </cell-date>
 
-        <cell-date
-          v-if="headerItem.type == 'date'"
-          :headerItem="headerItem"
-          :item="item"
-          :parent="parent"
-          :config="config"
-          :isDisabled="isDisabled"
-          :isDark="isDark"
-        >
-        </cell-date>
+          <cell-time
+            v-if="headerItem.type == 'time'"
+            :headerItem="headerItem"
+            :item="item"
+            :parent="parent"
+            :config="config"
+            :isDisabled="isDisabled"
+            :isDark="isDark"
+          >
+          </cell-time>
 
-        <cell-time
-          v-if="headerItem.type == 'time'"
-          :headerItem="headerItem"
-          :item="item"
-          :parent="parent"
-          :config="config"
-          :isDisabled="isDisabled"
-          :isDark="isDark"
-        >
-        </cell-time>
+          <cell-select
+            v-if="headerItem.type == 'select' && headerItem.itemsSelect"
+            :headerItem="headerItem"
+            :item="item"
+            :parent="parent"
+            :config="config"
+            :isDisabled="isDisabled"
+            :isDark="isDark"
+          >
+            <template v-slot:preppendSelectItem="props">
+              <slot name="preppendSelectItem" v-bind="props"></slot>
+            </template>
+          </cell-select>
 
-        <cell-select
-          v-if="headerItem.type == 'select' && headerItem.itemsSelect"
-          :headerItem="headerItem"
-          :item="item"
-          :parent="parent"
-          :config="config"
-          :isDisabled="isDisabled"
-          :isDark="isDark"
-        >
-          <template v-slot:preppendSelectItem="props">
-            <slot name="preppendSelectItem" v-bind="props"></slot>
-          </template>
-        </cell-select>
+          <cell-autocomplete
+            v-if="headerItem.type == 'autocomplete' && headerItem.itemsSelect"
+            :headerItem="headerItem"
+            :item="item"
+            :parent="parent"
+            :config="config"
+            :isDisabled="isDisabled"
+            :isDark="isDark"
+          >
+          </cell-autocomplete>
 
-        <cell-autocomplete
-          v-if="headerItem.type == 'autocomplete' && headerItem.itemsSelect"
-          :headerItem="headerItem"
-          :item="item"
-          :parent="parent"
-          :config="config"
-          :isDisabled="isDisabled"
-          :isDark="isDark"
-        >
-        </cell-autocomplete>
-
-        <span class="append-cell">
-          <slot
-            name="appendCell"
-            v-bind="{
-              item,
-              headerItem,
-              parent,
-              config,
-              value: get(item, headerItem, 'value'),
-            }"
-          ></slot>
-        </span>
+          <span class="append-cell">
+            <slot
+              name="appendCell"
+              v-bind="{
+                item,
+                headerItem,
+                parent,
+                config,
+                value: get(item, headerItem, 'value'),
+              }"
+            ></slot>
+          </span>
+        </div>
       </div>
     </div>
   </div>
@@ -198,6 +201,12 @@ import cellTime from './../MarmotaCells/CellTime.vue'
 
 export default {
   name: 'MarmotaRow',
+  data() {
+    return {
+      observer: null,
+      isVisibleMap: {},
+    }
+  },
   components: {
     cellButton,
     cellNumber,
@@ -229,6 +238,7 @@ export default {
       return this.item.edit && !this.isDisabled && !this.config.disableBgEdit
     },
   },
+
   methods: {
     get: utils.get,
     set: utils.set,
@@ -248,6 +258,13 @@ export default {
                   flex:  0 0 ${headerItem.responsive.width}px`
       }
       return style
+    },
+
+    getColGroupStyle(hg) {
+      const width = hg.vars.reduce((acc, headerItem) => {
+        return acc + (headerItem.width || 0)
+      }, 0)
+      return `width: ${width}px; flex: 0 0 ${width}px`
     },
 
     getClassItem(item, headerItem) {

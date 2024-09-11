@@ -4,6 +4,7 @@
     class="marmota"
     :class="{ 'dark-theme': isDark, 'has-groups': hasGroups }"
     v-if="config"
+    :key="marmotaKey"
   >
     <div class="marmota-backdrop" v-show="loading"></div>
     <marmota-corner
@@ -167,7 +168,6 @@
           <template v-slot:customCell="props">
             <slot name="customCell" v-bind="props"></slot>
           </template>
-
         </marmota-row-group>
       </div>
     </div>
@@ -207,9 +207,11 @@ export default {
   data() {
     return {
       config: null,
+      marmotaKey: 1,
       isAllSelected: false,
       headerItemToSort: null,
       isSortAsc: true,
+      trick: true,
     }
   },
   computed: {
@@ -246,6 +248,11 @@ export default {
   mounted() {
     this.$emit('mounted', this)
   },
+  beforeDestroy() {
+    if (this.observer) {
+      this.observer.disconnect()
+    }
+  },
 
   methods: {
     /**
@@ -263,9 +270,41 @@ export default {
         this.$nextTick(() => {
           this.prepareCssVariables()
           this.prepareScrollPosition()
+          this.createObserver()
         })
         return this.config
       }
+    },
+
+    createObserver() {
+      const tableContainer = document.querySelector('.table-container')
+      const options = {
+        root: tableContainer,
+        rootMargin: '0px',
+        threshold: 0,
+      }
+
+      this.observer = new IntersectionObserver(this.handleIntersect, options)
+      this.$nextTick(() => {
+        const elements = document.querySelectorAll('.t-col-group')
+        elements.forEach((el, index) => {
+          this.observer.observe(el)
+        })
+      })
+    },
+
+    handleIntersect(entries) {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.remove('is-hidden-group')
+        } else {
+          entry.target.classList.add('is-hidden-group')
+        }
+      })
+    },
+
+    redraw() {
+      this.marmotaKey++
     },
 
     prepareConfig(userConfig) {
