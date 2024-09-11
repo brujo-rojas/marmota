@@ -505,7 +505,7 @@
       }
 
       &.is-hidden-group {
-        .t-col-group-container {
+        .t-col-group-container .t-col{
           display: none;
         }
       }

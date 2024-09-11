@@ -261,10 +261,11 @@ export default {
     },
 
     getColGroupStyle(hg) {
-      const width = hg.vars.reduce((acc, headerItem) => {
+      let width = hg.vars.reduce((acc, headerItem) => {
         return acc + (headerItem.width || 0)
       }, 0)
-      return `width: ${width}px; flex: 0 0 ${width}px`
+      width = width + 2;
+      return `min-width: ${width}px; width: ${width}px; flex: 0 0 ${width}px`
     },
 
     getClassItem(item, headerItem) {
