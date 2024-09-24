@@ -12,8 +12,9 @@
       single-line
       :solo-inverted="isDark && isEditable(headerItem) || item.isLoading"
       :solo="!isDark && isEditable(headerItem) || item.isLoading"
-      :outlined="!isEditable(headerItem) || item.isLoading"
+      outlined
       dense
+      flat
       :item-text="headerItem.itemText || 'label'"
       :item-color="isDark ? 'white' : 'accent'"
       :color="isDark ? 'white' : 'accent'"

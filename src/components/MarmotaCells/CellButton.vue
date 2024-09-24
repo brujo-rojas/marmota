@@ -1,5 +1,5 @@
 <template>
-  <div class="justify-center d-flex flex-grow-1">
+  <div :class="contentClass">
     <v-btn
       small
       outlined
@@ -40,6 +40,24 @@
 import cellMixin from './CellMixin'
 export default {
   mixins: [cellMixin],
+  computed: {
+    contentClass() {
+      let classNames = ''
+      if (!this.headerItem.align || this.headerItem.align === 'center') {
+        classNames += 'justify-center d-flex flex-grow-1'
+      }
+      if (this.headerItem.align === 'right') {
+        classNames += 'justify-end d-flex flex-grow-1'
+      }
+      if (this.headerItem.align === 'left') {
+        classNames += 'justify-start d-flex flex-grow-1'
+      }
+      if (this.item.cellClassName) {
+        classNames += ' ' + this.item.cellClassName
+      }
+      return classNames
+    },
+  },
 }
 </script>
 
