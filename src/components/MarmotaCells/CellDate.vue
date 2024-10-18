@@ -35,6 +35,7 @@
       :value="get(item, headerItem, 'value')"
       @input="changeInput(item, headerItem, $event)"
       first-day-of-week="1"
+      locale-first-day-of-year="4"
       no-title
       scrollable
     >
