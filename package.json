@@ -24,8 +24,8 @@
     "url": "https://github.com/brujo-rojas/marmota/issues"
   },
   "engines": {
-    "npm": ">=8.0.0 <9.0.0",
-    "node": ">=16.0.0 <17.0.0"
+    "npm": ">=8.0.0",
+    "node": ">=16.0.0"
   },
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -33,8 +33,8 @@
     "build-dev": "vue-cli-service build --target lib --mode development --watch --name marmota src/main.js",
     "build": "vue-cli-service build --target lib --name marmota src/main.js",
     "lint": "vue-cli-service lint",
-    "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "docs:dev": "node --openssl-legacy-provider node_modules/.bin/vuepress dev docs",
+    "docs:build": "node --openssl-legacy-provider node_modules/.bin/vuepress build docs"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.15",

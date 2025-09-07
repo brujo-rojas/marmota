@@ -40,12 +40,25 @@ module.exports = {
         sidebar: {
           '/components/': [
             {
-              title: 'Ejemplos',
+              title: 'Guía de Inicio',
+              collapsable: false,
+              children: [
+                ['../guide', 'Instalación'],
+              ]
+            },
+            {
+              title: 'Ejemplos Prácticos',
               collapsable: false,
               children: [
                 'table-basic',
                 'table-example',
-                'TODO',
+              ]
+            },
+            {
+              title: 'Documentación Técnica', 
+              collapsable: true,
+              children: [
+                ['../api-config', 'API y Configuración'],
               ]
             }
           ]
