@@ -28,7 +28,7 @@
     "node": ">=16.0.0"
   },
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "NODE_OPTIONS=--openssl-legacy-provider vue-cli-service serve",
     "testBuild": "vue-cli-service build",
     "build-dev": "vue-cli-service build --target lib --mode development --watch --name marmota src/main.js",
     "build": "vue-cli-service build --target lib --name marmota src/main.js",

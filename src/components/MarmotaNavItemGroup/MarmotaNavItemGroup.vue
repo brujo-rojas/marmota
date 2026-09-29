@@ -210,7 +210,12 @@ export default {
           selected.push(item)
         }
         if (item.children) {
-          selected = [...selected, this.getItemsSelected(item.children)]
+          // concat children results to avoid nested arrays
+          selected = selected.concat(this.getItemsSelected(item.children))
+        }
+        if (item.insetChildren) {
+          // also handle insetChildren
+          selected = selected.concat(this.getItemsSelected(item.insetChildren))
         }
       })
       return selected

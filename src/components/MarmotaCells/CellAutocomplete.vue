@@ -3,6 +3,12 @@
     <v-autocomplete
       :key="item.key + 'a'"
       :items="headerItem.itemsSelect"
+      :multiple="headerItem.selectIsMultiple"
+      :menu-props="{
+        closeOnContentClick: !headerItem.selectIsMultiple,
+        offsetY: true,
+        transition: 'slide-y-transition',
+      }"
       :disabled="!isEditable(headerItem) || item.isLoading"
       :class="{ 'has-error': get(item, headerItem, 'hasError') }"
       @input="changeInput(item, headerItem, $event)"
@@ -19,6 +25,17 @@
       :item-color="isDark ? 'white' : 'accent'"
       :color="isDark ? 'white' : 'accent'"
     >
+      <template v-slot:selection="{ item: localItem, index }">
+        <span v-if="index === 0" class="truncate">
+          <span
+            v-if="headerItem.selectIsMultiple && (get(item, headerItem, 'value') || []).length > 1"
+            class="accent--text text-caption"
+          >
+            ({{ (get(item, headerItem, 'value') || []).length }})
+          </span>
+          {{ localItem[headerItem.itemText || 'label'] }}
+        </span>
+      </template>
       <template v-slot:prepend-item>
         <div v-if="headerItem.nulleable">
           <v-list-item ripple @click="changeInput(item, headerItem, null)">

@@ -21,7 +21,7 @@
       :value="get(item, headerItem, 'value')"
     />
     <div class="plain-text" v-else>
-      {{ get(item, headerItem, 'value') }}
+      {{ formattedValue }}
     </div>
     <div class="suffix">
       {{
@@ -37,5 +37,13 @@
 import cellMixin from './CellMixin'
 export default {
   mixins: [cellMixin],
+  computed: {
+    formattedValue() {
+      const value = this.get(this.item, this.headerItem, 'value')
+      return this.headerItem.displayFormatter
+        ? this.headerItem.displayFormatter({ value, item: this.item, headerItem: this.headerItem })
+        : value
+    },
+  },
 }
 </script>

@@ -61,12 +61,33 @@ export default {
   },
   methods: {
     changeSelectAllCheckbox() {
+      const setSelectedDeep = (node, isSelected) => {
+        node.isSelected = isSelected
+        if (node.children && node.children.length) {
+          node.children.forEach((child) => setSelectedDeep(child, isSelected))
+        }
+        if (node.insetChildren && node.insetChildren.length) {
+          node.insetChildren.forEach((child) => setSelectedDeep(child, isSelected))
+        }
+      }
+
       this.config.data.forEach((item) => {
-        item.isSelected = this.isAllSelected
+        setSelectedDeep(item, this.isAllSelected)
       })
+
+      const collectSelected = (array) => {
+        let out = []
+        array.forEach((n) => {
+          if (n.isSelected) out.push(n)
+          if (n.children && n.children.length) out = out.concat(collectSelected(n.children))
+          if (n.insetChildren && n.insetChildren.length) out = out.concat(collectSelected(n.insetChildren))
+        })
+        return out
+      }
+
       this.$emit('changeSelection', {
         isAllSelected: this.isAllSelected,
-        itemsSelected: _.filter(this.config.data, 'isSelected'),
+        itemsSelected: collectSelected(this.config.data),
       })
     },
   },
